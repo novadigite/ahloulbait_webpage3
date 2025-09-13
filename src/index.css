@@ -38,22 +38,28 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Custom spiritual design tokens */
-    --sage: 142 76% 36%;
-    --sage-light: 142 30% 96%;
-    --sage-dark: 142 76% 25%;
+    /* Custom spiritual design tokens - Inspired by vitrine image */
+    --sage: 160 85% 25%;
+    --sage-light: 160 40% 96%;
+    --sage-dark: 160 90% 15%;
     
-    --gold: 45 93% 58%;
-    --gold-light: 45 93% 95%;
-    --gold-dark: 45 93% 45%;
+    --gold: 35 100% 50%;
+    --gold-light: 35 100% 95%;
+    --gold-dark: 35 100% 35%;
+    
+    --emerald: 150 80% 35%;
+    --emerald-light: 150 60% 92%;
+    --emerald-dark: 150 85% 20%;
 
-    --spiritual-gradient: linear-gradient(135deg, hsl(var(--sage)), hsl(var(--gold)));
-    --hero-gradient: linear-gradient(135deg, hsl(var(--sage)) 0%, hsl(var(--sage-dark)) 100%);
-    --card-gradient: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(var(--sage-light)) 100%);
+    --spiritual-gradient: linear-gradient(135deg, hsl(var(--emerald)), hsl(var(--gold)));
+    --hero-gradient: linear-gradient(135deg, hsl(var(--sage)) 0%, hsl(var(--emerald-dark)) 50%, hsl(var(--sage-dark)) 100%);
+    --card-gradient: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(var(--emerald-light)) 100%);
+    --floating-gradient: linear-gradient(45deg, hsl(var(--gold) / 0.1), hsl(var(--emerald) / 0.1));
 
-    --shadow-soft: 0 4px 20px hsl(var(--sage) / 0.1);
-    --shadow-gold: 0 8px 25px hsl(var(--gold) / 0.15);
-    --shadow-elegant: 0 10px 40px hsl(var(--sage) / 0.12);
+    --shadow-soft: 0 4px 20px hsl(var(--emerald) / 0.15);
+    --shadow-gold: 0 8px 30px hsl(var(--gold) / 0.25);
+    --shadow-elegant: 0 15px 60px hsl(var(--sage) / 0.2);
+    --shadow-floating: 0 20px 40px hsl(var(--emerald) / 0.15);
 
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Heart } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import cheikhLogo from '@/assets/cheikh-photo.jpg';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,36 +34,42 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white/90'
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled ? 'bg-white/95 backdrop-blur-md shadow-elegant border-b border-emerald/10' : 'bg-white/90 backdrop-blur-sm'
     }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-sage to-gold rounded-full flex items-center justify-center">
-              <Heart className="w-6 h-6 text-white" />
+          <div className="flex items-center space-x-3 group cursor-pointer hover:scale-105 transition-all duration-300">
+            <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-emerald/20 group-hover:ring-gold/40 transition-all duration-300 shadow-soft">
+              <img 
+                src={cheikhLogo} 
+                alt="AHLOUL BAIT Logo" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-sage">AHLOUL BAIT</span>
-              <span className="text-sm text-muted-foreground">Tidjaniya</span>
+            <div className="flex flex-col group-hover:translate-x-1 transition-transform duration-300">
+              <span className="text-xl font-playfair font-bold text-emerald">AHLOUL BAIT</span>
+              <span className="text-sm text-muted-foreground font-inter">Tidjaniya</span>
             </div>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="text-sage hover:text-gold transition-colors duration-200 font-medium"
+                className="text-foreground hover:text-emerald transition-all duration-300 font-inter font-medium relative group"
+                style={{animationDelay: `${index * 0.1}s`}}
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald to-gold transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
             <Button 
               variant="default"
-              className="bg-sage hover:bg-sage-dark text-white"
+              className="bg-gradient-to-r from-emerald to-sage hover:from-emerald-dark hover:to-sage-dark text-white shadow-gold hover:shadow-elegant transition-all duration-300 hover:scale-105 font-inter"
               onClick={() => scrollToSection('#contact')}
             >
               Nous rejoindre
@@ -73,29 +80,30 @@ const Navigation = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className="md:hidden hover:bg-emerald/10 hover:scale-110 transition-all duration-300"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-6 h-6 text-emerald" /> : <Menu className="w-6 h-6 text-emerald" />}
           </Button>
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-sage/10">
+          <div className="md:hidden mt-4 pb-4 border-t border-emerald/10 animate-fade-in">
             <div className="flex flex-col space-y-4 pt-4">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-left text-sage hover:text-gold transition-colors duration-200 font-medium py-2"
+                  className="text-left text-foreground hover:text-emerald transition-all duration-300 font-inter font-medium py-2 hover:translate-x-2 animate-slide-up"
+                  style={{animationDelay: `${index * 0.1}s`}}
                 >
                   {item.name}
                 </button>
               ))}
               <Button 
                 variant="default"
-                className="bg-sage hover:bg-sage-dark text-white w-full mt-4"
+                className="bg-gradient-to-r from-emerald to-sage hover:from-emerald-dark hover:to-sage-dark text-white w-full mt-4 hover:scale-105 transition-all duration-300 font-inter"
                 onClick={() => scrollToSection('#contact')}
               >
                 Nous rejoindre
