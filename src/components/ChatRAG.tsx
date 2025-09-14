@@ -15,65 +15,49 @@ interface Message {
 const knowledgeBase = {
   organization: {
     name: "AHLOUL BAIT",
-    description: "Communauté spirituelle islamique de la voie Tidjaniya, à caractère social et apolitique",
+    officialName: "AHLOUL BAIT",
+    nature: "Communauté Spirituelle Islamique de la voie Tidjaniya",
+    character: "Social, apolitique",
     leader: "Cheikh Ahmad Tidjani Diabaté",
-    founded: "2010",
-    location: "Côte d'Ivoire",
-    followers: "45 000 followers",
-    status: "Enregistrée officiellement en Côte d'Ivoire depuis 2010"
+    slogan: "Unir les cœurs, élever les âmes, servir la communauté",
+    location: "Abidjan, Côte d'Ivoire"
   },
   mission: {
-    slogan: "Unir les cœurs, élever les âmes, servir la communauté",
     objectives: [
-      "Spiritualité et développement personnel",
-      "Solidarité et entraide communautaire",
-      "Promotion de la paix et de la tolérance",
-      "Transmission des valeurs islamiques authentiques",
-      "Éducation et formation des membres"
+      "Promouvoir la spiritualité et la paix selon les enseignements de la voie Tidjaniya",
+      "Offrir un encadrement spirituel et moral aux membres",
+      "Renforcer la solidarité sociale par des actions concrètes en faveur des familles et des plus démunis",
+      "Transmettre les valeurs islamiques de fraternité, d'éducation et de service à la communauté"
     ]
   },
   services: [
     {
       category: "Encadrement spirituel",
-      activities: ["Prières collectives", "Enseignements religieux", "Méditation", "Guidance spirituelle"]
+      activities: ["Prières collectives", "Enseignements religieux", "Retraites spirituelles"]
     },
     {
-      category: "Actions sociales",
-      activities: ["Aide aux familles démunies", "Soutien scolaire", "Assistance médicale", "Aide alimentaire"]
+      category: "Actions sociales", 
+      activities: ["Aides aux familles", "Soutien alimentaire", "Assistance médicale"]
     },
     {
-      category: "Éducation et formation",
-      activities: ["Conférences islamiques", "Séminaires", "Cours d'arabe", "Formation des imams"]
+      category: "Éducation & Formation",
+      activities: ["Soutien scolaire", "Conférences", "Séminaires"]
     },
     {
-      category: "Événements communautaires",
-      activities: ["Célébrations religieuses", "Rencontres fraternelles", "Activités jeunesse", "Programmes culturels"]
+      category: "Vie communautaire",
+      activities: ["Célébrations religieuses", "Événements sociaux", "Activités de cohésion"]
     }
   ],
+  leadership: {
+    guide: "Cheikh Ahmad Tidjani Diabaté",
+    team: "Hommes et femmes unis autour de la foi musulmane et des valeurs de solidarité",
+    engagement: "Disponibilité, éthique et service à la communauté"
+  },
   contact: {
     address: "Abidjan, Côte d'Ivoire",
     phone: "+225 0505287894",
-    email: "ahloulbait1199tidjanya@gmail.com",
-    website: "www.ahloulbait1199-tidjanya.org"
-  },
-  faq: [
-    {
-      question: "Comment adhérer à AHLOUL BAIT ?",
-      answer: "Pour adhérer, contactez-nous via nos coordonnées. L'adhésion est ouverte à tous ceux qui partagent nos valeurs de spiritualité, solidarité et paix."
-    },
-    {
-      question: "AHLOUL BAIT est-elle une organisation politique ?",
-      answer: "Non, AHLOUL BAIT est strictement apolitique. Nous nous concentrons uniquement sur la spiritualité, l'entraide sociale et l'éducation religieuse."
-    },
-    {
-      question: "Quelles sont vos actions sociales concrètes ?",
-      answer: "Nous menons des actions d'aide aux familles démunies, de soutien scolaire, d'assistance médicale et d'aide alimentaire pour les plus nécessiteux."
-    },
-    {
-      question: "Comment puis-je contribuer à vos actions ?",
-      answer: "Vous pouvez contribuer par des dons, du bénévolat, ou en participant à nos activités communautaires. Contactez-nous pour plus d'informations."
-    }
-  ]
+    email: "ahloulbait1199tidjanya@gmail.com"
+  }
 };
 
 const ChatRAG = () => {
@@ -95,7 +79,7 @@ const ChatRAG = () => {
     
     // Recherche par mots-clés
     if (lowerQuery.includes('mission') || lowerQuery.includes('objectif') || lowerQuery.includes('but')) {
-      return `Notre mission est de "${knowledgeBase.mission.slogan}". Nos objectifs principaux sont :\n\n${knowledgeBase.mission.objectives.map(obj => `• ${obj}`).join('\n')}`;
+      return `Notre mission est de "${knowledgeBase.organization.slogan}". Nos objectifs principaux sont :\n\n${knowledgeBase.mission.objectives.map(obj => `• ${obj}`).join('\n')}`;
     }
     
     if (lowerQuery.includes('service') || lowerQuery.includes('activité') || lowerQuery.includes('programme')) {
@@ -107,34 +91,27 @@ const ChatRAG = () => {
     }
     
     if (lowerQuery.includes('contact') || lowerQuery.includes('adresse') || lowerQuery.includes('téléphone') || lowerQuery.includes('email')) {
-      return `Voici nos coordonnées :\n\n• **Adresse** : ${knowledgeBase.contact.address}\n• **Téléphone** : ${knowledgeBase.contact.phone}\n• **Email** : ${knowledgeBase.contact.email}\n• **Site web** : ${knowledgeBase.contact.website}`;
+      return `Voici nos coordonnées :\n\n• **Adresse** : ${knowledgeBase.contact.address}\n• **Téléphone** : ${knowledgeBase.contact.phone}\n• **Email** : ${knowledgeBase.contact.email}`;
     }
     
-    if (lowerQuery.includes('cheikh') || lowerQuery.includes('leader') || lowerQuery.includes('dirigeant')) {
-      return `AHLOUL BAIT est guidée par ${knowledgeBase.organization.leader}. Notre organisation compte ${knowledgeBase.organization.followers} et a été officiellement enregistrée en Côte d'Ivoire depuis ${knowledgeBase.organization.founded}.`;
+    if (lowerQuery.includes('cheikh') || lowerQuery.includes('leader') || lowerQuery.includes('dirigeant') || lowerQuery.includes('guide')) {
+      return `AHLOUL BAIT est guidée par ${knowledgeBase.organization.leader}. ${knowledgeBase.leadership.team}. Notre engagement : ${knowledgeBase.leadership.engagement}.`;
     }
     
-    if (lowerQuery.includes('adhér') || lowerQuery.includes('rejoindre') || lowerQuery.includes('membre')) {
-      const faqItem = knowledgeBase.faq.find(f => f.question.toLowerCase().includes('adhér'));
-      return faqItem ? faqItem.answer : "Pour rejoindre AHLOUL BAIT, contactez-nous via nos coordonnées. L'adhésion est ouverte à tous ceux qui partagent nos valeurs.";
-    }
-    
-    if (lowerQuery.includes('politique') || lowerQuery.includes('apolitique')) {
-      const faqItem = knowledgeBase.faq.find(f => f.question.toLowerCase().includes('politique'));
-      return faqItem ? faqItem.answer : "AHLOUL BAIT est strictement apolitique. Nous nous concentrons sur la spiritualité et l'entraide sociale.";
-    }
-    
-    if (lowerQuery.includes('don') || lowerQuery.includes('contribu') || lowerQuery.includes('aide')) {
-      const faqItem = knowledgeBase.faq.find(f => f.question.toLowerCase().includes('contribu'));
-      return faqItem ? faqItem.answer : "Vous pouvez contribuer par des dons, du bénévolat, ou en participant à nos activités. Contactez-nous pour plus d'informations.";
+    if (lowerQuery.includes('nature') || lowerQuery.includes('organisation') || lowerQuery.includes('communauté')) {
+      return `${knowledgeBase.organization.name} est une ${knowledgeBase.organization.nature}. Notre caractère : ${knowledgeBase.organization.character}. Basée à ${knowledgeBase.organization.location}.`;
     }
     
     if (lowerQuery.includes('tidjan') || lowerQuery.includes('voie') || lowerQuery.includes('spirituel')) {
-      return `AHLOUL BAIT est une ${knowledgeBase.organization.description}. Nous suivons la voie spirituelle Tidjaniya sous la guidance de ${knowledgeBase.organization.leader}.`;
+      return `AHLOUL BAIT suit la ${knowledgeBase.organization.nature} sous la guidance de ${knowledgeBase.organization.leader}. Notre devise : "${knowledgeBase.organization.slogan}".`;
+    }
+    
+    if (lowerQuery.includes('politique') || lowerQuery.includes('apolitique')) {
+      return `AHLOUL BAIT est strictement ${knowledgeBase.organization.character}. Nous nous concentrons uniquement sur la spiritualité, l'entraide sociale et l'éducation religieuse.`;
     }
     
     // Réponse par défaut si aucun mot-clé n'est trouvé
-    return "Je ne trouve pas d'information spécifique sur ce sujet dans ma base de connaissances d'AHLOUL BAIT. Pouvez-vous reformuler votre question ou me demander des informations sur notre mission, nos services, nos contacts, ou comment nous rejoindre ?";
+    return "Je suis désolé, je ne peux répondre qu'aux questions concernant AHLOUL BAIT. Merci de reformuler votre question ou me demander des informations sur notre mission, nos services, nos contacts, ou notre organisation.";
   };
 
   const handleSendMessage = async () => {
