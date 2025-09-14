@@ -147,10 +147,10 @@ const ChatRAG = () => {
       {/* Chat Button */}
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-6 z-40 bg-emerald hover:bg-emerald-dark text-white shadow-floating hover:shadow-elegant transition-all duration-300 hover:scale-110 rounded-full w-14 h-14 p-0"
+        className="fixed bottom-20 right-6 z-40 bg-emerald hover:bg-emerald-dark text-white shadow-floating hover:shadow-elegant transition-all duration-300 hover:scale-110 rounded-full px-4 py-2 h-auto flex items-center gap-2"
         size="lg"
       >
-        <MessageCircle className="w-6 h-6" />
+        💬 Poser une question
       </Button>
 
       {/* Chat Window */}

@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { MapPin, Phone, Mail, Globe, Clock, Users } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Clock, Users, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 const Contact = () => {
@@ -16,8 +16,22 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    
+    // Format message for WhatsApp
+    const whatsappMessage = `👤 Nom: ${formData.name}
+📧 Email: ${formData.email}
+📞 Téléphone: ${formData.phone || 'Non renseigné'}
+📌 Sujet: ${formData.subject}
+💬 Message: ${formData.message}`;
+    
+    // Create WhatsApp URL
+    const whatsappNumber = '2250505287894';
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
     // Reset form
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
   };
@@ -135,7 +149,10 @@ const Contact = () => {
           <div>
             <Card className="border-0 bg-white/90 backdrop-blur-sm shadow-xl">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-sage mb-6">Envoyez-nous un message</h3>
+                <h3 className="text-2xl font-bold text-sage mb-6">Nous rejoindre</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Remplissez ce formulaire et votre message s'ouvrira automatiquement dans WhatsApp pour nous contacter directement.
+                </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
@@ -214,9 +231,10 @@ const Contact = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-sage hover:bg-sage-dark text-white"
+                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white flex items-center gap-2"
                   >
-                    Envoyer le message
+                    <MessageCircle className="w-5 h-5" />
+                    Envoyer via WhatsApp
                   </Button>
                 </form>
               </CardContent>
