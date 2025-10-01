@@ -17,20 +17,19 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Format message for WhatsApp
-    const whatsappMessage = `👤 Nom: ${formData.name}
-📧 Email: ${formData.email}
-📞 Téléphone: ${formData.phone || 'Non renseigné'}
-📌 Sujet: ${formData.subject}
-💬 Message: ${formData.message}`;
+    // Format email body
+    const emailBody = `Nom: ${formData.name}
+Email: ${formData.email}
+Téléphone: ${formData.phone || 'Non renseigné'}
+
+Message:
+${formData.message}`;
     
-    // Create WhatsApp URL
-    const whatsappNumber = '2250505287894';
-    const encodedMessage = encodeURIComponent(whatsappMessage);
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    // Create mailto URL
+    const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(emailBody)}`;
     
-    // Open WhatsApp
-    window.open(whatsappUrl, '_blank');
+    // Open email client
+    window.location.href = mailtoUrl;
     
     // Reset form
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
@@ -151,7 +150,7 @@ const Contact = () => {
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold text-sage mb-6">Nous rejoindre</h3>
                 <p className="text-sm text-muted-foreground mb-6">
-                  Remplissez ce formulaire et votre message s'ouvrira automatiquement dans WhatsApp pour nous contacter directement.
+                  Remplissez ce formulaire et votre message s'ouvrira automatiquement dans votre client email.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -231,10 +230,10 @@ const Contact = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white flex items-center gap-2"
+                    className="w-full bg-gradient-to-r from-sage to-gold text-white flex items-center gap-2"
                   >
-                    <MessageCircle className="w-5 h-5" />
-                    Envoyer via WhatsApp
+                    <Mail className="w-5 h-5" />
+                    Envoyer par Email
                   </Button>
                 </form>
               </CardContent>
