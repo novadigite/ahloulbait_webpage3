@@ -61,15 +61,21 @@ const Admin = () => {
 
   const checkAdminStatus = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', userId)
-        .single();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate('/auth');
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('check-admin', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`
+        }
+      });
 
       if (error) throw error;
 
-      if (data?.role === 'admin') {
+      if (data?.isAdmin === true) {
         setIsAdmin(true);
         loadEvents();
       } else {
@@ -118,6 +124,25 @@ const Admin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!session) return;
+
+    // Validate input lengths
+    if (title.length === 0 || title.length > 200) {
+      toast({
+        title: "Erreur de validation",
+        description: "Le titre doit contenir entre 1 et 200 caractères.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (description && description.length > 5000) {
+      toast({
+        title: "Erreur de validation",
+        description: "La description ne peut pas dépasser 5000 caractères.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setSubmitting(true);
 
@@ -256,6 +281,8 @@ const Admin = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
+                  maxLength={200}
+                  placeholder="Titre de l'événement (max 200 caractères)"
                 />
               </div>
               <div>
@@ -267,6 +294,8 @@ const Admin = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
+                  maxLength={5000}
+                  placeholder="Description de l'événement (max 5000 caractères)"
                 />
               </div>
               <div>

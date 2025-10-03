@@ -17,16 +17,48 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Format email body
-    const emailBody = `Nom: ${formData.name}
-Email: ${formData.email}
-Téléphone: ${formData.phone || 'Non renseigné'}
+    // Validate input lengths
+    if (formData.name.trim().length === 0 || formData.name.length > 100) {
+      alert('Le nom doit contenir entre 1 et 100 caractères.');
+      return;
+    }
+
+    if (formData.email.trim().length === 0 || formData.email.length > 255) {
+      alert('L\'email doit contenir entre 1 et 255 caractères.');
+      return;
+    }
+
+    if (formData.subject.trim().length === 0 || formData.subject.length > 200) {
+      alert('Le sujet doit contenir entre 1 et 200 caractères.');
+      return;
+    }
+
+    if (formData.message.trim().length < 10 || formData.message.length > 2000) {
+      alert('Le message doit contenir entre 10 et 2000 caractères.');
+      return;
+    }
+
+    if (formData.phone && formData.phone.length > 20) {
+      alert('Le numéro de téléphone ne peut pas dépasser 20 caractères.');
+      return;
+    }
+    
+    // Sanitize and format email body
+    const sanitizedName = formData.name.trim();
+    const sanitizedEmail = formData.email.trim();
+    const sanitizedPhone = formData.phone.trim();
+    const sanitizedSubject = formData.subject.trim();
+    const sanitizedMessage = formData.message.trim();
+
+    const emailBody = `Nom: ${sanitizedName}
+Email: ${sanitizedEmail}
+Téléphone: ${sanitizedPhone || 'Non renseigné'}
 
 Message:
-${formData.message}`;
+${sanitizedMessage}`;
     
-    // Create mailto URL
-    const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(emailBody)}`;
+    // Create mailto URL with proper encoding
+    const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(sanitizedSubject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Open email client
     window.location.href = mailtoUrl;
@@ -165,6 +197,7 @@ ${formData.message}`;
                         onChange={handleChange}
                         placeholder="Votre nom"
                         required
+                        maxLength={100}
                         className="border-sage/20 focus:border-sage"
                       />
                     </div>
@@ -179,6 +212,7 @@ ${formData.message}`;
                         onChange={handleChange}
                         placeholder="votre@email.com"
                         required
+                        maxLength={255}
                         className="border-sage/20 focus:border-sage"
                       />
                     </div>
@@ -194,6 +228,7 @@ ${formData.message}`;
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+225 XX XX XX XX XX"
+                        maxLength={20}
                         className="border-sage/20 focus:border-sage"
                       />
                     </div>
@@ -207,6 +242,7 @@ ${formData.message}`;
                         onChange={handleChange}
                         placeholder="Objet de votre message"
                         required
+                        maxLength={200}
                         className="border-sage/20 focus:border-sage"
                       />
                     </div>
@@ -220,9 +256,11 @@ ${formData.message}`;
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Décrivez votre demande ou question..."
+                      placeholder="Décrivez votre demande ou question... (10-2000 caractères)"
                       rows={5}
                       required
+                      minLength={10}
+                      maxLength={2000}
                       className="border-sage/20 focus:border-sage resize-none"
                     />
                   </div>
