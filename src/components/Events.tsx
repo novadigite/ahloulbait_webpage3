@@ -3,6 +3,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Image as ImageIcon, Video } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import TafsirSection from './TafsirSection';
+import SiraSection from './SiraSection';
+import FatwasSection from './FatwasSection';
 
 interface Event {
   id: string;
@@ -99,15 +103,24 @@ const Events = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-sage via-gold to-emerald bg-clip-text text-transparent">
-            Événements
+            Événements & Enseignements
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Découvrez nos derniers événements et moments partagés
+            Découvrez nos événements, tafsirs, sira et fatwas
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event, index) => {
+        <Tabs defaultValue="events" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 max-w-3xl mx-auto mb-12">
+            <TabsTrigger value="events">Événements</TabsTrigger>
+            <TabsTrigger value="tafsir">Tafsir du Coran</TabsTrigger>
+            <TabsTrigger value="sira">Sira du Prophète</TabsTrigger>
+            <TabsTrigger value="fatwas">Fatwas</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="events">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {events.map((event, index) => {
             const media = eventMedia[event.id] || [];
             const thumbnail = media[0];
 
@@ -188,8 +201,22 @@ const Events = () => {
                 </CardContent>
               </Card>
             );
-          })}
-        </div>
+              })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="tafsir">
+            <TafsirSection />
+          </TabsContent>
+
+          <TabsContent value="sira">
+            <SiraSection />
+          </TabsContent>
+
+          <TabsContent value="fatwas">
+            <FatwasSection />
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   );

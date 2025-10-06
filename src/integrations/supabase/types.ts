@@ -84,6 +84,39 @@ export type Database = {
           },
         ]
       }
+      fatwas: {
+        Row: {
+          audio_url: string
+          category: string | null
+          created_at: string
+          created_by: string
+          id: string
+          question: string
+          questioner_name: string | null
+          scholar_name: string | null
+        }
+        Insert: {
+          audio_url: string
+          category?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          question: string
+          questioner_name?: string | null
+          scholar_name?: string | null
+        }
+        Update: {
+          audio_url?: string
+          category?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          question?: string
+          questioner_name?: string | null
+          scholar_name?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -105,6 +138,75 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           username?: string
+        }
+        Relationships: []
+      }
+      sira: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          duration: string | null
+          id: string
+          thumbnail_url: string | null
+          title: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          thumbnail_url?: string | null
+          title: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          thumbnail_url?: string | null
+          title?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
+      tafsir: {
+        Row: {
+          content: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          surah_name: string
+          surah_number: number
+          title: string
+          video_url: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          surah_name: string
+          surah_number: number
+          title: string
+          video_url?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          surah_name?: string
+          surah_number?: number
+          title?: string
+          video_url?: string | null
         }
         Relationships: []
       }
