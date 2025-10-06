@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Globe, Clock, Users, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
+import PrayerTimes from './PrayerTimes';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -101,20 +102,9 @@ ${sanitizedMessage}`;
     }
   ];
 
-  const callToActions = [
-    {
-      icon: Users,
-      title: 'Rejoindre la communauté',
-      description: 'Devenez membre de notre communauté spirituelle',
-      action: 'Adhérer maintenant'
-    },
-    {
-      icon: Clock,
-      title: 'Horaires des prières',
-      description: 'Consultez les horaires de nos activités quotidiennes',
-      action: 'Voir les horaires'
-    }
-  ];
+  const handleWhatsAppJoin = () => {
+    window.open('https://wa.me/2250505287894?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank');
+  };
 
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-sage-light/10 to-gold-light/10">
@@ -153,27 +143,29 @@ ${sanitizedMessage}`;
               </div>
             </div>
 
-            {/* Call to Actions */}
-            <div className="space-y-4">
-              {callToActions.map((cta, index) => (
-                <Card key={cta.title} className="border-0 bg-gradient-to-r from-sage to-gold text-white hover:shadow-xl transition-all duration-300">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <cta.icon className="w-8 h-8 text-white/90" />
-                        <div>
-                          <h4 className="font-bold mb-1">{cta.title}</h4>
-                          <p className="text-sm opacity-90">{cta.description}</p>
-                        </div>
-                      </div>
-                      <Button variant="secondary" size="sm" className="bg-white/20 text-white hover:bg-white/30 border-0">
-                        {cta.action}
-                      </Button>
+            {/* Call to Action - Rejoindre */}
+            <Card 
+              className="border-0 bg-gradient-to-r from-emerald to-sage text-white hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105"
+              onClick={handleWhatsAppJoin}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <MessageCircle className="w-8 h-8 text-white/90" />
+                    <div>
+                      <h4 className="font-bold mb-1">Rejoindre la communauté</h4>
+                      <p className="text-sm opacity-90">Contactez-nous via WhatsApp</p>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                  </div>
+                  <Button variant="secondary" size="sm" className="bg-white/20 text-white hover:bg-white/30 border-0">
+                    Adhérer maintenant
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Prayer Times */}
+            <PrayerTimes />
           </div>
 
           {/* Contact Form */}
