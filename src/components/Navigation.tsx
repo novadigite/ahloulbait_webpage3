@@ -71,7 +71,7 @@ const Navigation = () => {
             <Button 
               variant="default"
               className="bg-gradient-to-r from-emerald to-sage hover:from-emerald-dark hover:to-sage-dark text-white shadow-gold hover:shadow-elegant transition-all duration-300 hover:scale-105 font-inter"
-              onClick={() => window.open('https://wa.me/2250505287894?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank')}
+              onClick={() => window.open('https://wa.me/2550757875302?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank')}
             >
               Nous rejoindre
             </Button>
@@ -105,7 +105,7 @@ const Navigation = () => {
               <Button 
                 variant="default"
                 className="bg-gradient-to-r from-emerald to-sage hover:from-emerald-dark hover:to-sage-dark text-white w-full mt-4 hover:scale-105 transition-all duration-300 font-inter"
-                onClick={() => window.open('https://wa.me/2250505287894?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank')}
+                onClick={() => window.open('https://wa.me/2550757875302?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank')}
               >
                 Nous rejoindre
               </Button>

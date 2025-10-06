@@ -103,7 +103,7 @@ ${sanitizedMessage}`;
   ];
 
   const handleWhatsAppJoin = () => {
-    window.open('https://wa.me/2250505287894?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank');
+    window.open('https://wa.me/2550757875302?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank');
   };
 
   return (
