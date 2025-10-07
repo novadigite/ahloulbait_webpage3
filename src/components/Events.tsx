@@ -134,17 +134,17 @@ const Events = () => {
                   {thumbnail && (
                     <Dialog>
                       <DialogTrigger asChild>
-                        <div className="relative h-64 cursor-pointer group">
+                        <div className="relative h-48 md:h-64 cursor-pointer group overflow-hidden">
                           {thumbnail.media_type === 'video' ? (
                             <video
                               src={thumbnail.media_url}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
                           ) : (
                             <img
                               src={thumbnail.media_url}
                               alt={event.title}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
                           )}
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -164,18 +164,18 @@ const Events = () => {
                       <DialogContent className="max-w-4xl">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[80vh] overflow-y-auto">
                           {media.map((item) => (
-                            <div key={item.id}>
+                            <div key={item.id} className="relative aspect-video">
                               {item.media_type === 'video' ? (
                                 <video
                                   src={item.media_url}
                                   controls
-                                  className="w-full rounded-lg"
+                                  className="w-full h-full object-cover rounded-lg"
                                 />
                               ) : (
                                 <img
                                   src={item.media_url}
                                   alt={event.title}
-                                  className="w-full rounded-lg"
+                                  className="w-full h-full object-cover rounded-lg"
                                 />
                               )}
                             </div>
@@ -186,9 +186,29 @@ const Events = () => {
                   )}
                   <div className="p-6">
                     <h3 className="text-xl font-semibold text-sage mb-2">{event.title}</h3>
-                    <p className="text-muted-foreground mb-4 line-clamp-3">
-                      {event.description}
-                    </p>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <p className="text-muted-foreground mb-4 line-clamp-3 cursor-pointer hover:text-foreground transition-colors">
+                          {event.description}
+                        </p>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl">
+                        <div className="space-y-4">
+                          <h3 className="text-2xl font-semibold text-sage">{event.title}</h3>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Calendar className="w-4 h-4" />
+                            {new Date(event.event_date).toLocaleDateString('fr-FR', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })}
+                          </div>
+                          <p className="text-muted-foreground whitespace-pre-wrap">
+                            {event.description}
+                          </p>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Calendar className="w-4 h-4" />
                       {new Date(event.event_date).toLocaleDateString('fr-FR', {
