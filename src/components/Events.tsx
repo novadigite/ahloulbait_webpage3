@@ -161,21 +161,21 @@ const Events = () => {
                           )}
                         </div>
                       </DialogTrigger>
-                      <DialogContent className="max-w-4xl">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[80vh] overflow-y-auto">
+                      <DialogContent className="max-w-4xl max-h-[90vh]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto">
                           {media.map((item) => (
-                            <div key={item.id} className="relative aspect-video">
+                            <div key={item.id} className="flex items-center justify-center bg-black/5 rounded-lg p-2">
                               {item.media_type === 'video' ? (
                                 <video
                                   src={item.media_url}
                                   controls
-                                  className="w-full h-full object-cover rounded-lg"
+                                  className="w-full h-auto max-h-[70vh] rounded-lg"
                                 />
                               ) : (
                                 <img
                                   src={item.media_url}
                                   alt={event.title}
-                                  className="w-full h-full object-cover rounded-lg"
+                                  className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
                                 />
                               )}
                             </div>
