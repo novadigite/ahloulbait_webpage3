@@ -26,32 +26,10 @@ const Events = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [eventMedia, setEventMedia] = useState<Record<string, EventMedia[]>>({});
   const [loading, setLoading] = useState(true);
-  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     loadEvents();
   }, []);
-
-  const getSignedUrl = async (url: string, mediaType: string): Promise<string> => {
-    // Si l'URL commence par http, c'est déjà une URL complète
-    if (url.startsWith('http')) {
-      return url;
-    }
-    
-    // Sinon, on génère une URL signée depuis Supabase Storage
-    try {
-      const bucket = mediaType === 'video' ? 'videos' : 'images';
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .createSignedUrl(url, 3600); // URL valide pour 1 heure
-      
-      if (error) throw error;
-      return data.signedUrl;
-    } catch (error) {
-      console.error('Error generating signed URL:', error);
-      return url;
-    }
-  };
 
   const loadEvents = async () => {
     try {
@@ -81,15 +59,6 @@ const Events = () => {
       });
 
       setEventMedia(mediaByEvent);
-      
-      // Générer les URLs signées pour tous les médias
-      const urls: Record<string, string> = {};
-      if (mediaData) {
-        for (const media of mediaData) {
-          urls[media.id] = await getSignedUrl(media.media_url, media.media_type);
-        }
-      }
-      setSignedUrls(urls);
     } catch (error) {
       console.error('Error loading events:', error);
     } finally {
@@ -168,13 +137,12 @@ const Events = () => {
                         <div className="relative h-48 md:h-64 cursor-pointer group overflow-hidden">
                           {thumbnail.media_type === 'video' ? (
                             <video
-                              src={signedUrls[thumbnail.id] || thumbnail.media_url}
+                              src={thumbnail.media_url}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                              preload="metadata"
                             />
                           ) : (
                             <img
-                              src={signedUrls[thumbnail.id] || thumbnail.media_url}
+                              src={thumbnail.media_url}
                               alt={event.title}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
@@ -199,17 +167,13 @@ const Events = () => {
                             <div key={item.id} className="flex items-center justify-center bg-black/5 rounded-lg p-2">
                               {item.media_type === 'video' ? (
                                 <video
-                                  src={signedUrls[item.id] || item.media_url}
+                                  src={item.media_url}
                                   controls
-                                  controlsList="nodownload"
-                                  preload="metadata"
                                   className="w-full h-auto max-h-[70vh] rounded-lg"
-                                >
-                                  Votre navigateur ne supporte pas la lecture de vidéos.
-                                </video>
+                                />
                               ) : (
                                 <img
-                                  src={signedUrls[item.id] || item.media_url}
+                                  src={item.media_url}
                                   alt={event.title}
                                   className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
                                 />

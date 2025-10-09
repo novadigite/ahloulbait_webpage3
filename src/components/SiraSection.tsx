@@ -16,31 +16,10 @@ interface Sira {
 const SiraSection = () => {
   const [siras, setSiras] = useState<Sira[]>([]);
   const [loading, setLoading] = useState(true);
-  const [videoUrls, setVideoUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     loadSiras();
   }, []);
-
-  const getVideoUrl = async (url: string): Promise<string> => {
-    // Si l'URL commence par http, c'est déjà une URL complète
-    if (url.startsWith('http')) {
-      return url;
-    }
-    
-    // Sinon, on génère une URL signée depuis Supabase Storage
-    try {
-      const { data, error } = await supabase.storage
-        .from('videos')
-        .createSignedUrl(url, 3600); // URL valide pour 1 heure
-      
-      if (error) throw error;
-      return data.signedUrl;
-    } catch (error) {
-      console.error('Error generating signed URL:', error);
-      return url;
-    }
-  };
 
   const loadSiras = async () => {
     try {
@@ -50,16 +29,7 @@ const SiraSection = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      
-      const sirasData = data || [];
-      setSiras(sirasData);
-      
-      // Générer les URLs signées pour les vidéos
-      const urls: Record<string, string> = {};
-      for (const sira of sirasData) {
-        urls[sira.id] = await getVideoUrl(sira.video_url);
-      }
-      setVideoUrls(urls);
+      setSiras(data || []);
     } catch (error) {
       console.error('Error loading sira:', error);
     } finally {
@@ -127,14 +97,10 @@ const SiraSection = () => {
               <h2 className="text-2xl font-bold text-sage">{sira.title}</h2>
               <div className="aspect-video">
                 <video
-                  src={videoUrls[sira.id] || sira.video_url}
+                  src={sira.video_url}
                   controls
                   className="w-full h-full rounded-lg"
-                  controlsList="nodownload"
-                  preload="metadata"
-                >
-                  Votre navigateur ne supporte pas la lecture de vidéos.
-                </video>
+                />
               </div>
               <p className="text-muted-foreground">{sira.description}</p>
             </div>
