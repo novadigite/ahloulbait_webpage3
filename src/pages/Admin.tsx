@@ -52,7 +52,6 @@ const Admin = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [importingTafsir, setImportingTafsir] = useState(false);
   const [contentType, setContentType] = useState<ContentType>('event');
   
   // Events
@@ -583,39 +582,6 @@ const Admin = () => {
     }
   };
 
-  const handleImportTafsir = async () => {
-    setImportingTafsir(true);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        throw new Error('Non authentifié');
-      }
-
-      const { data, error } = await supabase.functions.invoke('import-tafsir', {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`
-        }
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Succès",
-        description: data.message || "Tafsirs importés avec succès",
-      });
-
-      loadTafsirs();
-    } catch (error: any) {
-      console.error('Error importing tafsir:', error);
-      toast({
-        title: "Erreur",
-        description: error.message || "Erreur lors de l'importation des tafsirs",
-        variant: "destructive",
-      });
-    } finally {
-      setImportingTafsir(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -999,18 +965,7 @@ const Admin = () => {
 
           <TabsContent value="tafsirs">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-sage">Tafsirs publiés</h2>
-                <Button
-                  onClick={handleImportTafsir}
-                  disabled={importingTafsir}
-                  variant="outline"
-                  className="bg-gradient-to-r from-sage to-gold text-white hover:opacity-90"
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  {importingTafsir ? "Import en cours..." : "Importer depuis le site"}
-                </Button>
-              </div>
+              <h2 className="text-2xl font-bold text-sage">Tafsirs publiés</h2>
               {tafsirs.length === 0 ? (
                 <Card>
                   <CardContent className="py-8 text-center text-muted-foreground">
