@@ -142,11 +142,19 @@ const Events = () => {
         </div>
 
         <Tabs defaultValue="events" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 max-w-3xl mx-auto mb-12">
-            <TabsTrigger value="events">Événements</TabsTrigger>
-            <TabsTrigger value="tafsir">Tafsir du Coran</TabsTrigger>
-            <TabsTrigger value="sira">Sira du Prophète</TabsTrigger>
-            <TabsTrigger value="fatwas">Fatwas</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 max-w-3xl mx-auto mb-8 sm:mb-12 gap-2 h-auto p-2 bg-white/80 backdrop-blur-sm shadow-soft rounded-xl animate-slide-up">
+            <TabsTrigger value="events" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
+              Événements
+            </TabsTrigger>
+            <TabsTrigger value="tafsir" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
+              Tafsir
+            </TabsTrigger>
+            <TabsTrigger value="sira" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
+              Sira
+            </TabsTrigger>
+            <TabsTrigger value="fatwas" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
+              Fatwas
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="events">
@@ -158,32 +166,32 @@ const Events = () => {
             return (
               <Card
                 key={event.id}
-                className="overflow-hidden hover:shadow-elegant transition-shadow duration-300 animate-fade-in"
+                className="overflow-hidden hover:shadow-elegant hover:-translate-y-2 transition-all duration-500 animate-fade-in group backdrop-blur-sm bg-white/95 border-2 border-transparent hover:border-emerald/30"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <CardContent className="p-0">
                   {thumbnail && (
                     <Dialog>
                       <DialogTrigger asChild>
-                        <div className="relative h-48 md:h-64 cursor-pointer group overflow-hidden">
+                        <div className="relative h-56 sm:h-64 md:h-72 cursor-pointer overflow-hidden bg-gradient-to-br from-sage/5 to-emerald/5">
                           {thumbnail.media_type === 'video' ? (
                             <video
                               src={signedUrls[thumbnail.id] || thumbnail.media_url}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
                               preload="metadata"
                             />
                           ) : (
                             <img
                               src={signedUrls[thumbnail.id] || thumbnail.media_url}
                               alt={event.title}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
                             />
                           )}
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
                             {thumbnail.media_type === 'video' ? (
-                              <Video className="w-12 h-12 text-white" />
+                              <Video className="w-16 h-16 text-white animate-pulse-slow" />
                             ) : (
-                              <ImageIcon className="w-12 h-12 text-white" />
+                              <ImageIcon className="w-16 h-16 text-white animate-pulse-slow" />
                             )}
                           </div>
                           {media.length > 1 && (
@@ -220,8 +228,8 @@ const Events = () => {
                       </DialogContent>
                     </Dialog>
                   )}
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-sage mb-2">{event.title}</h3>
+                   <div className="p-4 sm:p-6">
+                    <h3 className="text-lg sm:text-xl font-semibold text-sage mb-2 group-hover:text-emerald transition-colors duration-300">{event.title}</h3>
                     <Dialog>
                       <DialogTrigger asChild>
                         <p className="text-muted-foreground mb-4 line-clamp-3 cursor-pointer hover:text-foreground transition-colors">
