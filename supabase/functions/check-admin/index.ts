@@ -64,8 +64,9 @@ Deno.serve(async (req) => {
     )
   } catch (error) {
     console.error('Unexpected error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return new Response(
-      JSON.stringify({ isAdmin: false, error: error.message }),
+      JSON.stringify({ isAdmin: false, error: errorMessage }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500 
