@@ -1,4 +1,5 @@
 import { Heart, MapPin, Phone, Mail, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const scrollToSection = (href: string) => {
@@ -123,10 +124,14 @@ const Footer = () => {
               © {new Date().getFullYear()} AHLOUL BAIT. Tous droits réservés.
             </div>
             
-            <div className="flex items-center space-x-6 text-sm text-sage-light">
+            <div className="flex items-center flex-wrap justify-center gap-4 text-sm text-sage-light">
               <span>Enregistrée officiellement depuis 2010</span>
               <span>•</span>
               <span>45 000+ followers</span>
+              <span>•</span>
+              <Link to="/privacy" className="hover:text-white transition-colors underline">
+                Politique de Confidentialité
+              </Link>
             </div>
           </div>
 
