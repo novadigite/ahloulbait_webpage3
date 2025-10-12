@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { LogOut, Plus, Trash2, Calendar, Upload } from 'lucide-react';
 import { Session } from '@supabase/supabase-js';
+import { useQueryClient } from '@tanstack/react-query';
 
 type ContentType = 'event' | 'tafsir' | 'sira' | 'fatwa';
 
@@ -84,6 +85,7 @@ const Admin = () => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     // Check auth and admin status
@@ -312,6 +314,7 @@ const Admin = () => {
       setEventDate('');
       setSelectedFiles(null);
       loadEvents();
+      queryClient.invalidateQueries({ queryKey: ['events'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -355,6 +358,7 @@ const Admin = () => {
       setTafsirContent('');
       setVideoUrl('');
       loadTafsirs();
+      queryClient.invalidateQueries({ queryKey: ['tafsir'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -415,6 +419,7 @@ const Admin = () => {
       setThumbnailFile(null);
       setDuration('');
       loadSiras();
+      queryClient.invalidateQueries({ queryKey: ['sira'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -475,6 +480,7 @@ const Admin = () => {
       setScholarName('');
       setQuestionerName('');
       loadFatwas();
+      queryClient.invalidateQueries({ queryKey: ['fatwas'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -503,6 +509,7 @@ const Admin = () => {
       });
 
       loadEvents();
+      queryClient.invalidateQueries({ queryKey: ['events'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -529,6 +536,7 @@ const Admin = () => {
       });
 
       loadTafsirs();
+      queryClient.invalidateQueries({ queryKey: ['tafsir'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -555,6 +563,7 @@ const Admin = () => {
       });
 
       loadSiras();
+      queryClient.invalidateQueries({ queryKey: ['sira'] });
     } catch (error: any) {
       toast({
         title: "Erreur",
@@ -581,6 +590,7 @@ const Admin = () => {
       });
 
       loadFatwas();
+      queryClient.invalidateQueries({ queryKey: ['fatwas'] });
     } catch (error: any) {
       toast({
         title: "Erreur",

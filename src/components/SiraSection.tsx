@@ -3,36 +3,27 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Play, Clock } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-
-interface Sira {
-  id: string;
-  title: string;
-  description: string;
-  video_url: string;
-  thumbnail_url: string;
-  duration: string;
-}
+import { useSira } from '@/hooks/useSira';
 
 const SiraSection = () => {
-  const [siras, setSiras] = useState<Sira[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: siras = [], isLoading: loading } = useSira();
   const [videoUrls, setVideoUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    loadSiras();
-  }, []);
+    if (siras.length > 0) {
+      loadVideoUrls();
+    }
+  }, [siras]);
 
   const getVideoUrl = async (url: string): Promise<string> => {
-    // Si l'URL commence par http, c'est déjà une URL complète
     if (url.startsWith('http')) {
       return url;
     }
     
-    // Sinon, on génère une URL signée depuis Supabase Storage
     try {
       const { data, error } = await supabase.storage
         .from('videos')
-        .createSignedUrl(url, 3600); // URL valide pour 1 heure
+        .createSignedUrl(url, 3600);
       
       if (error) throw error;
       return data.signedUrl;
@@ -44,31 +35,13 @@ const SiraSection = () => {
     }
   };
 
-  const loadSiras = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('sira')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      
-      const sirasData = data || [];
-      setSiras(sirasData);
-      
-      // Générer les URLs signées pour les vidéos
-      const urls: Record<string, string> = {};
-      for (const sira of sirasData) {
-        urls[sira.id] = await getVideoUrl(sira.video_url);
-      }
-      setVideoUrls(urls);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error loading sira:', error);
-      }
-    } finally {
-      setLoading(false);
+  const loadVideoUrls = async () => {
+    const urls: { [key: string]: string } = {};
+    for (const sira of siras) {
+      const signedUrl = await getVideoUrl(sira.video_url);
+      urls[sira.id] = signedUrl;
     }
+    setVideoUrls(urls);
   };
 
   if (loading) {

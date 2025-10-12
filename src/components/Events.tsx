@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Image as ImageIcon, Video } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -8,13 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TafsirSection from './TafsirSection';
 import SiraSection from './SiraSection';
 import FatwasSection from './FatwasSection';
-
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  event_date: string;
-}
+import { useEvents } from '@/hooks/useEvents';
 
 interface EventMedia {
   id: string;
@@ -24,27 +17,26 @@ interface EventMedia {
 }
 
 const Events = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const { data: events = [], isLoading: loading } = useEvents();
   const [eventMedia, setEventMedia] = useState<Record<string, EventMedia[]>>({});
-  const [loading, setLoading] = useState(true);
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    loadEvents();
-  }, []);
+    if (events.length > 0) {
+      loadEventMedia();
+    }
+  }, [events]);
 
   const getSignedUrl = async (url: string, mediaType: string): Promise<string> => {
-    // Si l'URL commence par http, c'est déjà une URL complète
     if (url.startsWith('http')) {
       return url;
     }
     
-    // Sinon, on génère une URL signée depuis Supabase Storage
     try {
       const bucket = mediaType === 'video' ? 'videos' : 'images';
       const { data, error } = await supabase.storage
         .from(bucket)
-        .createSignedUrl(url, 3600); // URL valide pour 1 heure
+        .createSignedUrl(url, 3600);
       
       if (error) throw error;
       return data.signedUrl;
@@ -56,26 +48,16 @@ const Events = () => {
     }
   };
 
-  const loadEvents = async () => {
+  const loadEventMedia = async () => {
     try {
-      const { data: eventsData, error: eventsError } = await supabase
-        .from('events')
-        .select('*')
-        .order('event_date', { ascending: false });
-
-      if (eventsError) throw eventsError;
-
-      setEvents(eventsData || []);
-
-      // Load media for each event
       const { data: mediaData, error: mediaError } = await supabase
         .from('event_media')
-        .select('*');
+        .select('*')
+        .in('event_id', events.map(e => e.id));
 
       if (mediaError) throw mediaError;
 
-      // Group media by event_id
-      const mediaByEvent: Record<string, EventMedia[]> = {};
+      const mediaByEvent: { [key: string]: EventMedia[] } = {};
       mediaData?.forEach((media) => {
         if (!mediaByEvent[media.event_id]) {
           mediaByEvent[media.event_id] = [];
@@ -84,21 +66,17 @@ const Events = () => {
       });
 
       setEventMedia(mediaByEvent);
-      
-      // Générer les URLs signées pour tous les médias
-      const urls: Record<string, string> = {};
-      if (mediaData) {
-        for (const media of mediaData) {
-          urls[media.id] = await getSignedUrl(media.media_url, media.media_type);
-        }
+
+      const urls: { [key: string]: string } = {};
+      for (const media of mediaData || []) {
+        const signedUrl = await getSignedUrl(media.media_url, media.media_type);
+        urls[media.id] = signedUrl;
       }
       setSignedUrls(urls);
     } catch (error) {
       if (import.meta.env.DEV) {
-        console.error('Error loading events:', error);
+        console.error('Error loading event media:', error);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
