@@ -166,7 +166,9 @@ const Admin = () => {
       if (error) throw error;
       setEvents(data || []);
     } catch (error: any) {
-      console.error('Error loading events:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading events:', error);
+      }
     }
   };
 
@@ -180,7 +182,9 @@ const Admin = () => {
       if (error) throw error;
       setTafsirs(data || []);
     } catch (error: any) {
-      console.error('Error loading tafsirs:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading tafsirs:', error);
+      }
     }
   };
 
@@ -194,7 +198,9 @@ const Admin = () => {
       if (error) throw error;
       setSiras(data || []);
     } catch (error: any) {
-      console.error('Error loading siras:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading siras:', error);
+      }
     }
   };
 
@@ -208,7 +214,9 @@ const Admin = () => {
       if (error) throw error;
       setFatwas(data || []);
     } catch (error: any) {
-      console.error('Error loading fatwas:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading fatwas:', error);
+      }
     }
   };
 

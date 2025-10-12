@@ -49,7 +49,9 @@ const Events = () => {
       if (error) throw error;
       return data.signedUrl;
     } catch (error) {
-      console.error('Error generating signed URL:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error generating signed URL:', error);
+      }
       return url;
     }
   };
@@ -92,7 +94,9 @@ const Events = () => {
       }
       setSignedUrls(urls);
     } catch (error) {
-      console.error('Error loading events:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading events:', error);
+      }
     } finally {
       setLoading(false);
     }

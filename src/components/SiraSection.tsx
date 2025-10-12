@@ -37,7 +37,9 @@ const SiraSection = () => {
       if (error) throw error;
       return data.signedUrl;
     } catch (error) {
-      console.error('Error generating signed URL:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error generating signed URL:', error);
+      }
       return url;
     }
   };
@@ -61,7 +63,9 @@ const SiraSection = () => {
       }
       setVideoUrls(urls);
     } catch (error) {
-      console.error('Error loading sira:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading sira:', error);
+      }
     } finally {
       setLoading(false);
     }

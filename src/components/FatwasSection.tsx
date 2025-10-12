@@ -30,7 +30,9 @@ const FatwasSection = () => {
       if (error) throw error;
       setFatwas(data || []);
     } catch (error) {
-      console.error('Error loading fatwas:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading fatwas:', error);
+      }
     } finally {
       setLoading(false);
     }
