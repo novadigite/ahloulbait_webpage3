@@ -1,21 +1,21 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Users, Award, Calendar, MapPin } from 'lucide-react';
-import cheikhPhoto from '@/assets/cheikh-photo.jpg';
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Users, Award, Calendar, MapPin } from "lucide-react";
+import cheikhPhoto from "@/assets/cheikh-photo.jpg";
 
 const Leadership = () => {
   const achievements = [
-    'Guide spirituel reconnu de la voie Tidjaniya',
-    'Fondateur et Autorité Morale d\'AHLOUL BAIT',
-    'Imam de la Grande Mosquée d\'Abobo',
-    'Ambassadeur de la Paix communautaire'
+    "Guide spirituel reconnu de la voie Tidjaniya",
+    "Fondateur et Autorité Morale d'AHLOUL BAIT",
+    "Imam de la Grande Mosquée d'Abobo",
+    "Ambassadeur de la Paix communautaire",
   ];
 
   const qualities = [
-    { icon: Users, title: 'Leadership', description: '45 000 followers' },
-    { icon: Award, title: 'Reconnaissance', description: 'Autorité spirituelle' },
-    { icon: Calendar, title: 'Expérience', description: '15+ années' },
-    { icon: MapPin, title: 'Présence', description: 'Côte d\'Ivoire' }
+    { icon: Users, title: "Leadership", description: "45 000 followers" },
+    { icon: Award, title: "Reconnaissance", description: "Autorité spirituelle" },
+    { icon: Calendar, title: "Expérience", description: "15+ années" },
+    { icon: MapPin, title: "Présence", description: "Côte d'Ivoire" },
   ];
 
   return (
@@ -37,11 +37,7 @@ const Leadership = () => {
                 {/* Photo Section */}
                 <div className="relative">
                   <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
-                    <img 
-                      src={cheikhPhoto}
-                      alt="Cheikh Ahmad Tidjani Diabaté"
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={cheikhPhoto} alt="Cheikh Ahmad Tidjani Diabaté" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-sage/20 to-transparent"></div>
                   </div>
                 </div>
@@ -49,27 +45,20 @@ const Leadership = () => {
                 {/* Content Section */}
                 <div className="p-8 lg:p-12 flex flex-col justify-center">
                   <div className="mb-6">
-                    <Badge className="bg-gold/10 text-gold border-gold/20 mb-4">
-                      Guide Spirituel
-                    </Badge>
-                    <h3 className="text-3xl font-bold text-sage mb-2">
-                      Cheikh Ahmad Tidjani Diabaté
-                    </h3>
-                    <p className="text-xl text-muted-foreground mb-4">
-                      Fondateur et Autorité Morale d'AHLOUL BAIT
-                    </p>
+                    <Badge className="bg-gold/10 text-gold border-gold/20 mb-4">Guide Spirituel</Badge>
+                    <h3 className="text-3xl font-bold text-sage mb-2">Cheikh Ahmad Tidjani Diabaté</h3>
+                    <p className="text-xl text-muted-foreground mb-4">Fondateur et Autorité Morale d'AHLOUL BAIT</p>
                   </div>
 
                   <div className="space-y-4 mb-8">
                     <p className="text-muted-foreground leading-relaxed">
-                      Imam de la Grande Mosquée d'Abobo et guide spirituel respecté, 
-                      Cheikh Ahmad Tidjani Diabaté consacre sa vie à l'enseignement 
-                      des valeurs islamiques authentiques et au service de la communauté.
+                      Imam de la Grande Mosquée d'Abobo et guide spirituel respecté et ambassadeur de la paix en CI,
+                      Cheikh Ahmad Tidjani Diabaté consacre sa vie à l'enseignement des valeurs islamiques authentiques
+                      et au service de la communauté.
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                      Sous sa direction éclairée, AHLOUL BAIT est devenue une référence 
-                      en matière de spiritualité, de solidarité et de paix sociale 
-                      en Côte d'Ivoire.
+                      Sous sa direction éclairée, AHLOUL BAIT est devenue une référence en matière de spiritualité, de
+                      solidarité et de paix sociale en Côte d'Ivoire.
                     </p>
                   </div>
 
@@ -91,7 +80,7 @@ const Leadership = () => {
         {/* Qualities Grid */}
         <div className="grid md:grid-cols-4 gap-6 mb-16">
           {qualities.map((quality, index) => (
-            <Card 
+            <Card
               key={quality.title}
               className="text-center border-0 bg-gradient-to-br from-white to-sage-light/10 hover:shadow-lg transition-all duration-300 animate-scale-in"
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -112,12 +101,11 @@ const Leadership = () => {
           <div className="bg-gradient-to-r from-sage-light/30 to-gold-light/30 rounded-3xl p-12 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-sage mb-6">Une Équipe Dévouée</h3>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Notre organisation s'appuie sur une équipe passionnée d'hommes et de femmes 
-              engagés, unis par les mêmes valeurs de spiritualité, de solidarité et de service. 
-              Ensemble, nous œuvrons quotidiennement pour le bien-être de notre communauté 
-              et la transmission des enseignements authentiques de l'Islam.
+              Notre organisation s'appuie sur une équipe passionnée d'hommes et de femmes engagés, unis par les mêmes
+              valeurs de spiritualité, de solidarité et de service. Ensemble, nous œuvrons quotidiennement pour le
+              bien-être de notre communauté et la transmission des enseignements authentiques de l'Islam.
             </p>
-            
+
             <div className="grid md:grid-cols-3 gap-6 text-center">
               <div>
                 <div className="text-2xl font-bold text-sage mb-1">25+</div>
