@@ -58,7 +58,7 @@ const Leadership = () => {
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
                       Sous sa direction éclairée, AHLOUL BAIT est devenue une référence en matière de spiritualité, de
-                      solidarité et de paix sociale en Côte d'Ivoire.
+                      solidarité et de paix sociale en Côte d'Ivoire et dans le monde.
                     </p>
                   </div>
 
