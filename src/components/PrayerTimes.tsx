@@ -1,13 +1,13 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Clock, MapPin } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Clock, MapPin } from "lucide-react";
 
 const PrayerTimes = () => {
   const prayers = [
-    { name: 'Fajr (Aube)', time: '05:00' },
-    { name: 'Dhuhr (Midi)', time: '12:30' },
-    { name: 'Asr (Après-midi)', time: '15:45' },
-    { name: 'Maghrib (Coucher)', time: '18:30' },
-    { name: 'Isha (Nuit)', time: '19:45' }
+    { name: "Fajr (Aube)", time: "05:30" },
+    { name: "Dhuhr (Midi)", time: "13:30" },
+    { name: "Asr (Après-midi)", time: "16:00" },
+    { name: "Maghrib (Coucher)", time: "18:30" },
+    { name: "Isha (Nuit)", time: "19:30" },
   ];
 
   return (
@@ -25,10 +25,10 @@ const PrayerTimes = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="space-y-4">
           {prayers.map((prayer, index) => (
-            <div 
+            <div
               key={prayer.name}
               className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-sage-light/20 to-gold-light/20 hover:from-sage-light/30 hover:to-gold-light/30 transition-all duration-300 animate-slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -38,7 +38,7 @@ const PrayerTimes = () => {
             </div>
           ))}
         </div>
-        
+
         <p className="text-xs text-muted-foreground mt-6 text-center">
           * Horaires approximatifs. Les heures peuvent varier légèrement selon la période de l'année.
         </p>
