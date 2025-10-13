@@ -8,7 +8,7 @@ const Leadership = () => {
     "Guide spirituel reconnu de la voie Tidjaniya",
     "Fondateur et Autorité Morale d'AHLOUL BAIT",
     "Imam de la Grande Mosquée d'Abobo",
-    "Ambassadeur de la Paix communautaire",
+    "Ambassadeur de la Paix en côte d'ivoire",
   ];
 
   const qualities = [
