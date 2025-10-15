@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
     } = await supabaseClient.auth.getUser()
 
     if (userError || !user) {
-      console.error('Auth error:', userError)
+      console.error('Auth error: Unauthorized access attempt')
       return new Response(
         JSON.stringify({ isAdmin: false, error: 'Unauthorized' }),
         { 
@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
     const { data, error } = await supabaseClient.rpc('is_admin')
 
     if (error) {
-      console.error('Error checking admin status:', error)
+      console.error('Error checking admin status:', error.message)
       return new Response(
         JSON.stringify({ isAdmin: false, error: error.message }),
         { 
@@ -53,7 +53,10 @@ Deno.serve(async (req) => {
       )
     }
 
-    console.log('Admin check result:', data, 'for user:', user.id)
+    // Only log in development environment
+    if (Deno.env.get('ENVIRONMENT') === 'development') {
+      console.log('Admin check result:', data, 'for user:', user.id)
+    }
 
     return new Response(
       JSON.stringify({ isAdmin: data === true }),

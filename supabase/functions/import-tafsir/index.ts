@@ -49,7 +49,12 @@ Deno.serve(async (req) => {
       throw new Error('User is not admin');
     }
 
-    console.log('Starting tafsir import from cheikhdiabate.com...');
+    // Only log detailed information in development
+    if (Deno.env.get('ENVIRONMENT') === 'development') {
+      console.log('Admin user verified, starting tafsir import...')
+    } else {
+      console.log('Starting tafsir import')
+    }
 
     // Liste des sourates à importer (basée sur ce que j'ai vu sur le site)
     const tafsirList: TafsirData[] = [
@@ -262,7 +267,7 @@ Deno.serve(async (req) => {
       .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
 
     if (deleteError && deleteError.code !== 'PGRST116') {
-      console.error('Error deleting old tafsir:', deleteError);
+      console.error('Error deleting old tafsir:', deleteError.message);
     }
 
     // Insérer les nouveaux tafsirs
@@ -277,11 +282,12 @@ Deno.serve(async (req) => {
       .select();
 
     if (insertError) {
-      console.error('Error inserting tafsir:', insertError);
+      console.error('Error inserting tafsir:', insertError.message);
       throw insertError;
     }
 
-    console.log(`Successfully imported ${insertedData?.length || 0} tafsirs`);
+    const count = insertedData?.length || 0;
+    console.log(`Successfully imported ${count} tafsirs`);
 
     return new Response(
       JSON.stringify({
