@@ -11,6 +11,16 @@ import { useToast } from '@/hooks/use-toast';
 import { LogOut, Plus, Trash2, Calendar, Upload } from 'lucide-react';
 import { Session } from '@supabase/supabase-js';
 import { useQueryClient } from '@tanstack/react-query';
+import { 
+  eventSchema, 
+  tafsirSchema, 
+  siraSchema, 
+  fatwaSchema, 
+  validateFile, 
+  imageFileSchema, 
+  audioFileSchema,
+  videoFileSchema 
+} from '@/lib/validation';
 
 type ContentType = 'event' | 'tafsir' | 'sira' | 'fatwa';
 
@@ -250,13 +260,41 @@ const Admin = () => {
   const handleEventSubmit = async () => {
     if (!session) return;
 
-    if (title.length === 0 || title.length > 200) {
+    // Validate event data
+    const result = eventSchema.safeParse({
+      title,
+      description,
+      event_date: eventDate,
+    });
+
+    if (!result.success) {
+      const firstError = result.error.errors[0];
       toast({
         title: "Erreur de validation",
-        description: "Le titre doit contenir entre 1 et 200 caractères.",
+        description: firstError.message,
         variant: "destructive",
       });
       return;
+    }
+
+    // Validate files if present
+    if (selectedFiles && selectedFiles.length > 0) {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const isVideo = file.type.startsWith('video/');
+        const schema = isVideo ? videoFileSchema : imageFileSchema;
+        const fileValidation = validateFile(file, schema);
+
+        if (!fileValidation.success) {
+          const firstError = fileValidation.error.errors[0];
+          toast({
+            title: "Erreur de validation du fichier",
+            description: `${file.name}: ${firstError.message}`,
+            variant: "destructive",
+          });
+          return;
+        }
+      }
     }
 
     setSubmitting(true);
@@ -265,9 +303,9 @@ const Admin = () => {
       const { data: eventData, error: eventError } = await supabase
         .from('events')
         .insert({
-          title,
-          description,
-          event_date: eventDate,
+          title: result.data.title,
+          description: result.data.description,
+          event_date: result.data.event_date,
           created_by: session.user.id,
         })
         .select()
@@ -329,18 +367,38 @@ const Admin = () => {
   const handleTafsirSubmit = async () => {
     if (!session) return;
 
+    // Validate tafsir data
+    const result = tafsirSchema.safeParse({
+      title,
+      description,
+      surah_name: surahName,
+      surah_number: parseInt(surahNumber) || 0,
+      content: tafsirContent,
+      video_url: videoUrl,
+    });
+
+    if (!result.success) {
+      const firstError = result.error.errors[0];
+      toast({
+        title: "Erreur de validation",
+        description: firstError.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSubmitting(true);
 
     try {
       const { error } = await supabase
         .from('tafsir')
         .insert({
-          title,
-          description,
-          surah_name: surahName,
-          surah_number: parseInt(surahNumber),
-          content: tafsirContent,
-          video_url: videoUrl,
+          title: result.data.title,
+          description: result.data.description,
+          surah_name: result.data.surah_name,
+          surah_number: result.data.surah_number,
+          content: result.data.content,
+          video_url: result.data.video_url || null,
           created_by: session.user.id,
         });
 
@@ -373,6 +431,38 @@ const Admin = () => {
   const handleSiraSubmit = async () => {
     if (!session) return;
 
+    // Validate sira data
+    const result = siraSchema.safeParse({
+      title,
+      description,
+      video_url: videoUrl,
+      duration,
+    });
+
+    if (!result.success) {
+      const firstError = result.error.errors[0];
+      toast({
+        title: "Erreur de validation",
+        description: firstError.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate thumbnail file if present
+    if (thumbnailFile) {
+      const fileValidation = validateFile(thumbnailFile, imageFileSchema);
+      if (!fileValidation.success) {
+        const firstError = fileValidation.error.errors[0];
+        toast({
+          title: "Erreur de validation du fichier",
+          description: `${thumbnailFile.name}: ${firstError.message}`,
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     setSubmitting(true);
 
     try {
@@ -398,11 +488,11 @@ const Admin = () => {
       const { error } = await supabase
         .from('sira')
         .insert({
-          title,
-          description,
-          video_url: videoUrl,
+          title: result.data.title,
+          description: result.data.description,
+          video_url: result.data.video_url,
           thumbnail_url: thumbnailUrl,
-          duration,
+          duration: result.data.duration,
           created_by: session.user.id,
         });
 
@@ -434,6 +524,45 @@ const Admin = () => {
   const handleFatwaSubmit = async () => {
     if (!session) return;
 
+    // Validate fatwa data
+    const result = fatwaSchema.safeParse({
+      question,
+      category,
+      scholar_name: scholarName,
+      questioner_name: questionerName,
+    });
+
+    if (!result.success) {
+      const firstError = result.error.errors[0];
+      toast({
+        title: "Erreur de validation",
+        description: firstError.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate audio file if present (required for fatwa)
+    if (!audioFile) {
+      toast({
+        title: "Erreur de validation",
+        description: "Le fichier audio est requis",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const fileValidation = validateFile(audioFile, audioFileSchema);
+    if (!fileValidation.success) {
+      const firstError = fileValidation.error.errors[0];
+      toast({
+        title: "Erreur de validation du fichier",
+        description: `${audioFile.name}: ${firstError.message}`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -459,11 +588,11 @@ const Admin = () => {
       const { error } = await supabase
         .from('fatwas')
         .insert({
-          question,
+          question: result.data.question,
           audio_url: audioUrl,
-          category,
-          scholar_name: scholarName,
-          questioner_name: questionerName,
+          category: result.data.category,
+          scholar_name: result.data.scholar_name,
+          questioner_name: result.data.questioner_name,
           created_by: session.user.id,
         });
 

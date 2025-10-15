@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { LogIn } from 'lucide-react';
+import { authSchema } from '@/lib/validation';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -38,10 +39,28 @@ const Auth = () => {
     setLoading(true);
 
     try {
+      // Validate inputs
+      const validationData = isLogin
+        ? { email, password }
+        : { email, password, username };
+
+      const result = authSchema.safeParse(validationData);
+
+      if (!result.success) {
+        const firstError = result.error.errors[0];
+        toast({
+          title: "Erreur de validation",
+          description: firstError.message,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
+          email: result.data.email,
+          password: result.data.password,
         });
 
         if (error) throw error;
@@ -52,11 +71,11 @@ const Auth = () => {
         });
       } else {
         const { error } = await supabase.auth.signUp({
-          email,
-          password,
+          email: result.data.email,
+          password: result.data.password,
           options: {
             data: {
-              username: username,
+              username: result.data.username,
             },
             emailRedirectTo: `${window.location.origin}/admin`,
           },
@@ -108,6 +127,8 @@ const Auth = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
+                  minLength={3}
+                  maxLength={50}
                 />
               </div>
             )}
@@ -135,7 +156,8 @@ const Auth = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
+                minLength={8}
+                maxLength={128}
               />
             </div>
             <Button

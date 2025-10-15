@@ -5,8 +5,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Globe, Clock, Users, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import PrayerTimes from './PrayerTimes';
+import { useToast } from '@/hooks/use-toast';
+import { contactSchema } from '@/lib/validation';
 
 const Contact = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,48 +21,31 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate input lengths
-    if (formData.name.trim().length === 0 || formData.name.length > 100) {
-      alert('Le nom doit contenir entre 1 et 100 caractères.');
-      return;
-    }
+    // Validate with Zod schema
+    const result = contactSchema.safeParse(formData);
 
-    if (formData.email.trim().length === 0 || formData.email.length > 255) {
-      alert('L\'email doit contenir entre 1 et 255 caractères.');
-      return;
-    }
-
-    if (formData.subject.trim().length === 0 || formData.subject.length > 200) {
-      alert('Le sujet doit contenir entre 1 et 200 caractères.');
-      return;
-    }
-
-    if (formData.message.trim().length < 10 || formData.message.length > 2000) {
-      alert('Le message doit contenir entre 10 et 2000 caractères.');
-      return;
-    }
-
-    if (formData.phone && formData.phone.length > 20) {
-      alert('Le numéro de téléphone ne peut pas dépasser 20 caractères.');
+    if (!result.success) {
+      const firstError = result.error.errors[0];
+      toast({
+        title: "Erreur de validation",
+        description: firstError.message,
+        variant: "destructive",
+      });
       return;
     }
     
-    // Sanitize and format email body
-    const sanitizedName = formData.name.trim();
-    const sanitizedEmail = formData.email.trim();
-    const sanitizedPhone = formData.phone.trim();
-    const sanitizedSubject = formData.subject.trim();
-    const sanitizedMessage = formData.message.trim();
+    // Use validated data
+    const { name, email, phone, subject, message } = result.data;
 
-    const emailBody = `Nom: ${sanitizedName}
-Email: ${sanitizedEmail}
-Téléphone: ${sanitizedPhone || 'Non renseigné'}
+    const emailBody = `Nom: ${name}
+Email: ${email}
+Téléphone: ${phone || 'Non renseigné'}
 
 Message:
-${sanitizedMessage}`;
+${message}`;
     
     // Create mailto URL with proper encoding
-    const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(sanitizedSubject)}&body=${encodeURIComponent(emailBody)}`;
+    const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Open email client
     window.location.href = mailtoUrl;
