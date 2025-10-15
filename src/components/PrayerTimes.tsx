@@ -1,13 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const PrayerTimes = () => {
+  const { t } = useTranslation();
+  
   const prayers = [
-    { name: "Fajr (Aube)", time: "05:30" },
-    { name: "Dhuhr (Midi)", time: "13:30" },
-    { name: "Asr (Après-midi)", time: "16:00" },
-    { name: "Maghrib (Coucher)", time: "18:30" },
-    { name: "Isha (Nuit)", time: "19:30" },
+    { name: t('prayerTimes.fajr'), time: "05:30" },
+    { name: t('prayerTimes.dhuhr'), time: "13:30" },
+    { name: t('prayerTimes.asr'), time: "16:00" },
+    { name: t('prayerTimes.maghrib'), time: "18:30" },
+    { name: t('prayerTimes.isha'), time: "19:30" },
   ];
 
   return (
@@ -18,10 +21,10 @@ const PrayerTimes = () => {
             <Clock className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-sage">Horaires des Prières</h3>
+            <h3 className="text-2xl font-bold text-sage">{t('prayerTimes.title')}</h3>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4" />
-              <span>Abidjan, Abobo - Côte d'Ivoire</span>
+              <span>{t('prayerTimes.location')}</span>
             </div>
           </div>
         </div>
@@ -40,7 +43,7 @@ const PrayerTimes = () => {
         </div>
 
         <p className="text-xs text-muted-foreground mt-6 text-center">
-          * Horaires approximatifs. Les heures peuvent varier légèrement selon la période de l'année.
+          {t('prayerTimes.note')}
         </p>
       </CardContent>
     </Card>

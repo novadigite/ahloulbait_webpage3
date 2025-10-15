@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "mission": "Mission",
+    "services": "Services",
+    "leadership": "Leadership",
+    "events": "Events",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "joinUs": "Join Us"
+  },
+  "hero": {
+    "title": "AHLOUL BAIT",
+    "subtitle": "Tidjaniya Community - Ivory Coast",
+    "slogan": "Uniting hearts, elevating souls, serving the community",
+    "description": "A non-political religious and social organization, guided by Cheikh Ahmad Tidjani Diabaté. Officially registered in Ivory Coast since 2010, we bring together a spiritual community of 45,000 followers united in peace and solidarity.",
+    "discoverMission": "Discover our mission",
+    "followers": "Followers",
+    "founded": "Founded",
+    "community": "Community",
+    "spiritualityAndSolidarity": "Spirituality & Solidarity",
+    "unitedCommunity": "A community united in faith and mutual support",
+    "prayers": "Prayers",
+    "daily": "Daily",
+    "training": "Training",
+    "continuous": "Continuous",
+    "help": "Help",
+    "social": "Social",
+    "peace": "Peace",
+    "lasting": "Lasting"
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "AHLOUL BAIT is committed to serving the community through four fundamental pillars that guide all our actions and initiatives.",
+    "spirituality": {
+      "title": "Spirituality",
+      "description": "Cultivate faith and strengthen spiritual connection through the teachings of the Tidjaniya path."
+    },
+    "solidarity": {
+      "title": "Solidarity",
+      "description": "Foster community mutual aid and support families in need with compassion."
+    },
+    "transmission": {
+      "title": "Transmission",
+      "description": "Pass on authentic Islamic values to new generations with wisdom."
+    },
+    "peace": {
+      "title": "Peace",
+      "description": "Promote social peace and intercommunity harmony in our society."
+    },
+    "vision": "Our vision is to build a strong, united and supportive spiritual community, where each member can grow in faith while contributing to collective well-being.",
+    "author": "Cheikh Ahmad Tidjani Diabaté"
+  },
+  "prayerTimes": {
+    "title": "Prayer Times",
+    "location": "Abidjan, Abobo - Ivory Coast",
+    "fajr": "Fajr (Dawn)",
+    "dhuhr": "Dhuhr (Noon)",
+    "asr": "Asr (Afternoon)",
+    "maghrib": "Maghrib (Sunset)",
+    "isha": "Isha (Night)",
+    "note": "* Approximate times. Hours may vary slightly depending on the time of year."
+  },
+  "footer": {
+    "organization": "A non-political religious and social organization, dedicated to spirituality, solidarity and community peace.",
+    "slogan": "Uniting hearts, elevating souls, serving the community",
+    "quickLinks": "Quick Links",
+    "services": "Our Services",
+    "contact": "Contact",
+    "location": "Abidjan, Ivory Coast",
+    "mosque": "Grande Mosquée d'Abobo",
+    "rights": "All rights reserved.",
+    "registered": "Officially registered since 2010",
+    "followers": "45,000+ followers",
+    "privacy": "Privacy Policy",
+    "guidedBy": "Guided by Cheikh Ahmad Tidjani Diabaté - Ambassador of Peace",
+    "servicesList": {
+      "spiritual": "Spiritual Guidance",
+      "social": "Social Actions",
+      "education": "Education & Training",
+      "events": "Community Events"
+    }
+  },
+  "whatsapp": {
+    "message": "Hello, I'm coming from your website. I would like to join the AHLOUL BAIT Tidjaniya community."
+  }
+}

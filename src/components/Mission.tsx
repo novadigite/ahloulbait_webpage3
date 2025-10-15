@@ -1,30 +1,33 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Users, BookOpen, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Mission = () => {
+  const { t } = useTranslation();
+  
   const missions = [
     {
       icon: Heart,
-      title: 'Spiritualité',
-      description: 'Cultiver la foi et renforcer la connexion spirituelle à travers les enseignements de la voie Tidjaniya.',
+      title: t('mission.spirituality.title'),
+      description: t('mission.spirituality.description'),
       gradient: 'from-sage to-sage-dark'
     },
     {
       icon: Users,
-      title: 'Solidarité',
-      description: 'Favoriser l\'entraide communautaire et soutenir les familles dans le besoin avec compassion.',
+      title: t('mission.solidarity.title'),
+      description: t('mission.solidarity.description'),
       gradient: 'from-gold to-gold-dark'
     },
     {
       icon: BookOpen,
-      title: 'Transmission',
-      description: 'Transmettre les valeurs islamiques authentiques aux nouvelles générations avec sagesse.',
+      title: t('mission.transmission.title'),
+      description: t('mission.transmission.description'),
       gradient: 'from-sage-dark to-sage'
     },
     {
       icon: Sparkles,
-      title: 'Paix',
-      description: 'Promouvoir la paix sociale et l\'harmonie intercommunautaire dans notre société.',
+      title: t('mission.peace.title'),
+      description: t('mission.peace.description'),
       gradient: 'from-gold-dark to-gold'
     }
   ];
@@ -33,11 +36,10 @@ const Mission = () => {
     <section id="mission" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl font-bold text-sage mb-4">Notre Mission</h2>
+          <h2 className="text-4xl font-bold text-sage mb-4">{t('mission.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            AHLOUL BAIT s'engage à servir la communauté à travers quatre piliers fondamentaux 
-            qui guident chacune de nos actions et initiatives.
+            {t('mission.description')}
           </p>
         </div>
 
@@ -64,10 +66,9 @@ const Mission = () => {
         <div className="mt-20 text-center">
           <div className="bg-gradient-to-r from-sage-light/30 to-gold-light/30 rounded-3xl p-12 mx-auto max-w-4xl">
             <blockquote className="text-2xl font-medium text-sage italic mb-6">
-              "Notre vision est de bâtir une communauté spirituelle forte, unie et solidaire, 
-              où chaque membre peut grandir dans la foi tout en contribuant au bien-être collectif."
+              "{t('mission.vision')}"
             </blockquote>
-            <div className="text-gold font-semibold">— Cheikh Ahmad Tidjani Diabaté</div>
+            <div className="text-gold font-semibold">— {t('mission.author')}</div>
           </div>
         </div>
       </div>

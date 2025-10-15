@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import cheikhLogo from '@/assets/cheikh-photo.jpg';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Navigation = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -17,13 +20,13 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: 'Accueil', href: '#accueil' },
-    { name: 'Mission', href: '#mission' },
-    { name: 'Services', href: '#services' },
-    { name: 'Leadership', href: '#leadership' },
-    { name: 'Événements', href: '#evenements' },
-    { name: 'Contact', href: '#contact' },
-    { name: 'FAQ', href: '#faq' },
+    { name: t('nav.home'), href: '#accueil' },
+    { name: t('nav.mission'), href: '#mission' },
+    { name: t('nav.services'), href: '#services' },
+    { name: t('nav.leadership'), href: '#leadership' },
+    { name: t('nav.events'), href: '#evenements' },
+    { name: t('nav.contact'), href: '#contact' },
+    { name: t('nav.faq'), href: '#faq' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -68,12 +71,13 @@ const Navigation = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald to-gold transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
+            <LanguageSwitcher />
             <Button 
               variant="default"
               className="bg-gradient-to-r from-emerald to-sage hover:from-emerald-dark hover:to-sage-dark text-white shadow-gold hover:shadow-elegant transition-all duration-300 hover:scale-105 font-inter"
-              onClick={() => window.open('https://wa.me/2550757875302?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank')}
+              onClick={() => window.open(`https://wa.me/2550757875302?text=${encodeURIComponent(t('whatsapp.message'))}`, '_blank')}
             >
-              Nous rejoindre
+              {t('nav.joinUs')}
             </Button>
           </div>
 
@@ -102,12 +106,15 @@ const Navigation = () => {
                   {item.name}
                 </button>
               ))}
+              <div className="pt-4">
+                <LanguageSwitcher />
+              </div>
               <Button 
                 variant="default"
                 className="bg-gradient-to-r from-emerald to-sage hover:from-emerald-dark hover:to-sage-dark text-white w-full mt-4 hover:scale-105 transition-all duration-300 font-inter"
-                onClick={() => window.open('https://wa.me/2550757875302?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank')}
+                onClick={() => window.open(`https://wa.me/2550757875302?text=${encodeURIComponent(t('whatsapp.message'))}`, '_blank')}
               >
-                Nous rejoindre
+                {t('nav.joinUs')}
               </Button>
             </div>
           </div>
