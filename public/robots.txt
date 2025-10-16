@@ -1,12 +1,12 @@
 User-agent: Googlebot
 Allow: /
-Disallow: /admin
-Disallow: /auth
+Disallow: /adminpanel-7f3a9b2c
+Disallow: /auth-portal-2f8a
 
 User-agent: Bingbot
 Allow: /
-Disallow: /admin
-Disallow: /auth
+Disallow: /adminpanel-7f3a9b2c
+Disallow: /auth-portal-2f8a
 
 User-agent: Twitterbot
 Allow: /
@@ -16,7 +16,7 @@ Allow: /
 
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /auth
+Disallow: /adminpanel-7f3a9b2c
+Disallow: /auth-portal-2f8a
 
 Sitemap: https://yourdomain.com/sitemap.xml

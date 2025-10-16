@@ -21,13 +21,13 @@ const Auth = () => {
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate('/admin');
+        navigate('/adminpanel-7f3a9b2c');
       }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        navigate('/admin');
+        navigate('/adminpanel-7f3a9b2c');
       }
     });
 
@@ -63,7 +63,15 @@ const Auth = () => {
           password: result.data.password,
         });
 
-        if (error) throw error;
+        if (error) {
+          toast({
+            title: "Erreur d'authentification",
+            description: "Identifiants incorrects",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
 
         toast({
           title: "Connexion réussie",
@@ -77,11 +85,19 @@ const Auth = () => {
             data: {
               username: result.data.username,
             },
-            emailRedirectTo: `${window.location.origin}/admin`,
+            emailRedirectTo: `${window.location.origin}/adminpanel-7f3a9b2c`,
           },
         });
 
-        if (error) throw error;
+        if (error) {
+          toast({
+            title: "Erreur",
+            description: "Impossible de créer le compte",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
 
         toast({
           title: "Inscription réussie",
@@ -89,10 +105,10 @@ const Auth = () => {
         });
         setIsLogin(true);
       }
-    } catch (error: any) {
+    } catch {
       toast({
         title: "Erreur",
-        description: error.message,
+        description: "Une erreur est survenue",
         variant: "destructive",
       });
     } finally {
