@@ -8,6 +8,7 @@ import TafsirSection from './TafsirSection';
 import SiraSection from './SiraSection';
 import FatwasSection from './FatwasSection';
 import { useEvents } from '@/hooks/useEvents';
+import { useTranslation } from 'react-i18next';
 
 interface EventMedia {
   id: string;
@@ -17,6 +18,7 @@ interface EventMedia {
 }
 
 const Events = () => {
+  const { t } = useTranslation();
   const { data: events = [], isLoading: loading } = useEvents();
   const [eventMedia, setEventMedia] = useState<Record<string, EventMedia[]>>({});
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
@@ -86,10 +88,10 @@ const Events = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-sage via-gold to-emerald bg-clip-text text-transparent">
-              Événements
+              {t('events.title')}
             </h2>
           </div>
-          <div className="text-center text-muted-foreground">Chargement...</div>
+          <div className="text-center text-muted-foreground">{t('events.loading')}</div>
         </div>
       </section>
     );
@@ -101,11 +103,11 @@ const Events = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-sage via-gold to-emerald bg-clip-text text-transparent">
-              Événements
+              {t('events.title')}
             </h2>
           </div>
           <div className="text-center text-muted-foreground">
-            Aucun événement pour le moment.
+            {t('events.noEvents')}
           </div>
         </div>
       </section>
@@ -117,26 +119,26 @@ const Events = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-sage via-gold to-emerald bg-clip-text text-transparent">
-            Événements & Enseignements
+            {t('events.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Découvrez nos événements, tafsirs, sira et fatwas
+            {t('events.subtitle')}
           </p>
         </div>
 
         <Tabs defaultValue="events" className="w-full">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 max-w-3xl mx-auto mb-8 sm:mb-12 gap-2 h-auto p-2 bg-white/80 backdrop-blur-sm shadow-soft rounded-xl animate-slide-up">
             <TabsTrigger value="events" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
-              Événements
+              {t('events.tabs.events')}
             </TabsTrigger>
             <TabsTrigger value="tafsir" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
-              Tafsir
+              {t('events.tabs.tafsir')}
             </TabsTrigger>
             <TabsTrigger value="sira" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
-              Sira
+              {t('events.tabs.sira')}
             </TabsTrigger>
             <TabsTrigger value="fatwas" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-sage data-[state=active]:to-emerald data-[state=active]:text-white transition-all duration-300 hover:scale-105 py-3">
-              Fatwas
+              {t('events.tabs.fatwas')}
             </TabsTrigger>
           </TabsList>
 

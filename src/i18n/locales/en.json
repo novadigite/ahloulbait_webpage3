@@ -83,5 +83,123 @@
   },
   "whatsapp": {
     "message": "Hello, I'm coming from your website. I would like to join the AHLOUL BAIT Tidjaniya community."
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Services at the heart of the community",
+    "spiritualGuidance": {
+      "title": "Spiritual Guidance",
+      "description": "Daily prayers, dhikr sessions and religious teachings according to the Tidjaniya path.",
+      "features": ["Collective prayers", "Dhikr sessions", "Quranic teachings", "Spiritual guidance"]
+    },
+    "socialActions": {
+      "title": "Social Actions",
+      "description": "Support for underprivileged families, food assistance and support for the most vulnerable.",
+      "features": ["Food assistance", "Family support", "Medical assistance", "Emergency aid"]
+    },
+    "education": {
+      "title": "Education & Training",
+      "description": "Literacy programs, school support and vocational training.",
+      "features": ["School support", "Literacy", "Vocational training", "Scholarships"]
+    },
+    "events": {
+      "title": "Community Events",
+      "description": "Organization of religious and social events to strengthen community bonds.",
+      "features": ["Religious conferences", "Celebrations", "Fraternal meetings", "Youth activities"]
+    },
+    "stats": {
+      "familiesHelped": "Families helped",
+      "studentsSupported": "Students supported",
+      "annualEvents": "Annual events",
+      "spiritualGuidance": "Spiritual guidance"
+    },
+    "getInvolved": "Get Involved",
+    "learnMore": "Learn More"
+  },
+  "leadership": {
+    "title": "Our Leadership",
+    "subtitle": "Enlightened spiritual leadership and a team dedicated to serving the community",
+    "spiritualGuide": "Spiritual Guide",
+    "founder": "Founder and Moral Authority of AHLOUL BAIT",
+    "achievements": [
+      "Recognized spiritual guide of the Tidjaniya path",
+      "Founder and Moral Authority of AHLOUL BAIT",
+      "Imam of the Grand Mosque of Abobo",
+      "Peace Ambassador in Ivory Coast"
+    ],
+    "qualities": {
+      "leadership": "Leadership",
+      "recognition": "Recognition",
+      "experience": "Experience",
+      "presence": "Presence",
+      "followers": "followers",
+      "authority": "Spiritual authority",
+      "years": "years",
+      "location": "Ivory Coast"
+    },
+    "vision": "Vision & Mission",
+    "biography": "Biography"
+  },
+  "events": {
+    "title": "Events & Teachings",
+    "subtitle": "Discover our events, tafsirs, sira and fatwas",
+    "tabs": {
+      "events": "Events",
+      "tafsir": "Tafsir",
+      "sira": "Sira",
+      "fatwas": "Fatwas"
+    },
+    "loading": "Loading...",
+    "noEvents": "No events at the moment.",
+    "noTafsir": "No tafsir available at the moment.",
+    "noSira": "No sira available at the moment.",
+    "noFatwas": "No fatwas available at the moment."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are listening",
+    "form": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send",
+      "success": "Message sent successfully!",
+      "error": "Validation error"
+    },
+    "info": {
+      "address": "Abidjan, Abobo - Grand Mosque",
+      "phone": "+225 07 57 87 53 02",
+      "email": "ahloulbait1199tidjanya@gmail.com",
+      "hours": "Monday to Friday: 8am - 6pm",
+      "saturday": "Saturday: 9am - 1pm"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to your questions",
+    "questions": {
+      "join": {
+        "q": "How to join AHLOUL BAIT?",
+        "a": "You can join our community by contacting us via WhatsApp, phone or by visiting our mosque in Abobo. We regularly organize welcome sessions for new members."
+      },
+      "activities": {
+        "q": "What are the community's activities?",
+        "a": "We organize daily prayers, dhikr sessions, religious conferences, social actions, school support, and various community events throughout the year."
+      },
+      "donations": {
+        "q": "How to make a donation?",
+        "a": "You can make a donation by directly contacting our administration by phone or email. All donations are used for our social actions and community support."
+      },
+      "prayers": {
+        "q": "Where do prayers take place?",
+        "a": "Prayers take place at the Grand Mosque of Abobo. We welcome all believers for daily prayers and special events."
+      },
+      "tidjaniya": {
+        "q": "What is the Tidjaniya path?",
+        "a": "The Tidjaniya is a Sufi brotherhood founded by Cheikh Ahmad Tijani. It emphasizes spiritual purification, dhikr and closeness to Allah through guided spiritual practices."
+      }
+    }
   }
 }
