@@ -13,13 +13,24 @@ i18n
       en: { translation: en },
     },
     fallbackLng: 'fr',
-    lng: 'fr',
+    // Remove fixed lng to enable auto-detection
+    supportedLngs: ['fr', 'en'],
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      // Prioritize navigator language detection for automatic country-based detection
+      order: ['navigator', 'localStorage', 'htmlTag', 'path', 'subdomain'],
+      lookupLocalStorage: 'i18nextLng',
       caches: ['localStorage'],
+      excludeCacheFor: ['cimode'],
+      // Map country codes to languages
+      convertDetectedLanguage: (lng: string) => {
+        // Extract base language code (e.g., 'en-US' -> 'en', 'fr-FR' -> 'fr')
+        const baseLng = lng.split('-')[0].toLowerCase();
+        // Return supported language or fallback
+        return ['fr', 'en'].includes(baseLng) ? baseLng : 'fr';
+      },
     },
     react: {
       useSuspense: true,
