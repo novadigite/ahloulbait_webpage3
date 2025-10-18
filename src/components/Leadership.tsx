@@ -2,30 +2,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Award, Calendar, MapPin } from "lucide-react";
 import cheikhPhoto from "@/assets/cheikh-photo.jpg";
+import { useTranslation } from 'react-i18next';
 
 const Leadership = () => {
-  const achievements = [
-    "Guide spirituel reconnu de la voie Tidjaniya",
-    "Fondateur et Autorité Morale d'AHLOUL BAIT",
-    "Imam de la Grande Mosquée d'Abobo",
-    "Ambassadeur de la Paix en côte d'ivoire",
-  ];
+  const { t } = useTranslation();
+  
+  const achievements = t('leadership.achievements', { returnObjects: true }) as string[];
 
   const qualities = [
-    { icon: Users, title: "Leadership", description: "45 000 followers" },
-    { icon: Award, title: "Reconnaissance", description: "Autorité spirituelle" },
-    { icon: Calendar, title: "Expérience", description: "15+ années" },
-    { icon: MapPin, title: "Présence", description: "Côte d'Ivoire" },
+    { icon: Users, title: t('leadership.qualities.leadership'), description: `45 000 ${t('leadership.qualities.followers')}` },
+    { icon: Award, title: t('leadership.qualities.recognition'), description: t('leadership.qualities.authority') },
+    { icon: Calendar, title: t('leadership.qualities.experience'), description: `15+ ${t('leadership.qualities.years')}` },
+    { icon: MapPin, title: t('leadership.qualities.presence'), description: t('leadership.qualities.location') },
   ];
 
   return (
     <section id="leadership" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-sage mb-4">Notre Leadership</h2>
+          <h2 className="text-4xl font-bold text-sage mb-4">{t('leadership.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Une direction spirituelle éclairée et une équipe dévouée au service de la communauté
+            {t('leadership.subtitle')}
           </p>
         </div>
 
@@ -45,9 +43,9 @@ const Leadership = () => {
                 {/* Content Section */}
                 <div className="p-8 lg:p-12 flex flex-col justify-center">
                   <div className="mb-6">
-                    <Badge className="bg-gold/10 text-gold border-gold/20 mb-4">Guide Spirituel</Badge>
+                    <Badge className="bg-gold/10 text-gold border-gold/20 mb-4">{t('leadership.spiritualGuide')}</Badge>
                     <h3 className="text-3xl font-bold text-sage mb-2">Cheikh Ahmad Tidjani Diabaté</h3>
-                    <p className="text-xl text-muted-foreground mb-4">Fondateur et Autorité Morale d'AHLOUL BAIT</p>
+                    <p className="text-xl text-muted-foreground mb-4">{t('leadership.founder')}</p>
                   </div>
 
                   <div className="space-y-4 mb-8">

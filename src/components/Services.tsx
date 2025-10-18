@@ -9,44 +9,47 @@ import {
   MessageCircle,
   ArrowRight
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Services = () => {
+  const { t } = useTranslation();
+  
   const services = [
     {
       icon: BookHeart,
-      title: 'Encadrement Spirituel',
-      description: 'Prières quotidiennes, sessions de dhikr et enseignements religieux selon la voie Tidjaniya.',
-      features: ['Prières collectives', 'Sessions de dhikr', 'Enseignements coraniques', 'Guidance spirituelle'],
+      title: t('services.spiritualGuidance.title'),
+      description: t('services.spiritualGuidance.description'),
+      features: t('services.spiritualGuidance.features', { returnObjects: true }) as string[],
       color: 'sage'
     },
     {
       icon: HandHeart,
-      title: 'Actions Sociales',
-      description: 'Soutien aux familles démunies, aide alimentaire et accompagnement des plus vulnérables.',
-      features: ['Aide alimentaire', 'Soutien aux familles', 'Assistance médicale', 'Aide d\'urgence'],
+      title: t('services.socialActions.title'),
+      description: t('services.socialActions.description'),
+      features: t('services.socialActions.features', { returnObjects: true }) as string[],
       color: 'gold'
     },
     {
       icon: GraduationCap,
-      title: 'Éducation & Formation',
-      description: 'Programmes d\'alphabétisation, soutien scolaire et formations professionnelles.',
-      features: ['Soutien scolaire', 'Alphabétisation', 'Formation professionnelle', 'Bourses d\'études'],
+      title: t('services.education.title'),
+      description: t('services.education.description'),
+      features: t('services.education.features', { returnObjects: true }) as string[],
       color: 'sage'
     },
     {
       icon: Calendar,
-      title: 'Événements Communautaires',
-      description: 'Organisation d\'événements religieux et sociaux pour renforcer les liens communautaires.',
-      features: ['Conférences religieuses', 'Célébrations', 'Rencontres fraternelles', 'Activités jeunesse'],
+      title: t('services.events.title'),
+      description: t('services.events.description'),
+      features: t('services.events.features', { returnObjects: true }) as string[],
       color: 'gold'
     }
   ];
 
   const stats = [
-    { number: '500+', label: 'Familles aidées', icon: HandHeart },
-    { number: '1200+', label: 'Étudiants soutenus', icon: GraduationCap },
-    { number: '50+', label: 'Événements annuels', icon: Calendar },
-    { number: '24/7', label: 'Guidance spirituelle', icon: MessageCircle }
+    { number: '500+', label: t('services.stats.familiesHelped'), icon: HandHeart },
+    { number: '1200+', label: t('services.stats.studentsSupported'), icon: GraduationCap },
+    { number: '50+', label: t('services.stats.annualEvents'), icon: Calendar },
+    { number: '24/7', label: t('services.stats.spiritualGuidance'), icon: MessageCircle }
   ];
 
   const scrollToSection = (href: string) => {
@@ -60,11 +63,10 @@ const Services = () => {
     <section id="services" className="py-20 bg-gradient-to-br from-sage-light/10 to-gold-light/10">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-sage mb-4">Services & Activités</h2>
+          <h2 className="text-4xl font-bold text-sage mb-4">{t('services.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Nous proposons une gamme complète de services pour répondre aux besoins 
-            spirituels, éducatifs et sociaux de notre communauté.
+            {t('services.subtitle')}
           </p>
         </div>
 
@@ -105,7 +107,7 @@ const Services = () => {
 
         {/* Stats Section */}
         <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 mb-16">
-          <h3 className="text-2xl font-bold text-sage text-center mb-8">Notre Impact</h3>
+          <h3 className="text-2xl font-bold text-sage text-center mb-8">{t('services.title')}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={stat.label} className="text-center animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
@@ -122,9 +124,9 @@ const Services = () => {
         {/* Call to Action */}
         <div className="text-center">
           <div className="bg-gradient-to-r from-sage to-gold rounded-3xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">Participez à nos activités</h3>
+            <h3 className="text-2xl font-bold mb-4">{t('services.getInvolved')}</h3>
             <p className="mb-6 opacity-90">
-              Rejoignez-nous dans nos actions quotidiennes pour le bien-être de la communauté
+              {t('services.subtitle')}
             </p>
             <Button
               variant="secondary"
@@ -132,7 +134,7 @@ const Services = () => {
               className="bg-white text-sage hover:bg-white/90"
               onClick={() => scrollToSection('#contact')}
             >
-              Nous contacter
+              {t('nav.contact')}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>

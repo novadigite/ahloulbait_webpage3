@@ -7,9 +7,11 @@ import { useState } from 'react';
 import PrayerTimes from './PrayerTimes';
 import { useToast } from '@/hooks/use-toast';
 import { contactSchema } from '@/lib/validation';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,7 +29,7 @@ const Contact = () => {
     if (!result.success) {
       const firstError = result.error.errors[0];
       toast({
-        title: "Erreur de validation",
+        title: t('contact.form.error'),
         description: firstError.message,
         variant: "destructive",
       });
@@ -64,21 +66,21 @@ ${message}`;
   const contactInfo = [
     {
       icon: MapPin,
-      title: 'Adresse',
-      content: 'Abidjan, Côte d\'Ivoire',
+      title: t('contact.info.address').split(',')[0],
+      content: t('contact.info.address'),
       subtext: 'Grande Mosquée d\'Abobo'
     },
     {
       icon: Phone,
-      title: 'Téléphone',
-      content: '+225 05 05 28 78 94',
-      subtext: 'Disponible 24h/7j'
+      title: t('contact.form.phone'),
+      content: t('contact.info.phone'),
+      subtext: t('contact.info.hours')
     },
     {
       icon: Mail,
-      title: 'Email',
-      content: 'ahloulbait1199tidjanya@gmail.com',
-      subtext: 'Réponse sous 24h'
+      title: t('contact.form.email'),
+      content: t('contact.info.email'),
+      subtext: t('contact.info.saturday')
     },
     {
       icon: Globe,
@@ -89,18 +91,17 @@ ${message}`;
   ];
 
   const handleWhatsAppJoin = () => {
-    window.open('https://wa.me/2550757875302?text=Bonjour,%20je%20viens%20de%20votre%20site%20Internet.%20Je%20souhaite%20rejoindre%20la%20communauté%20AHLOUL%20BAIT%20Tidjaniya.', '_blank');
+    window.open(`https://wa.me/2550757875302?text=${encodeURIComponent(t('whatsapp.message'))}`, '_blank');
   };
 
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-sage-light/10 to-gold-light/10">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-sage mb-4">Contactez-nous</h2>
+          <h2 className="text-4xl font-bold text-sage mb-4">{t('contact.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Nous sommes à votre écoute. N'hésitez pas à nous contacter pour toute question 
-            ou pour rejoindre notre communauté.
+            {t('contact.subtitle')}
           </p>
         </div>
 
@@ -108,7 +109,7 @@ ${message}`;
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-sage mb-6">Nos Coordonnées</h3>
+              <h3 className="text-2xl font-bold text-sage mb-6">{t('contact.title')}</h3>
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <Card key={info.title} className="border-0 bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
@@ -139,12 +140,12 @@ ${message}`;
                   <div className="flex items-center space-x-4">
                     <MessageCircle className="w-8 h-8 text-white/90" />
                     <div>
-                      <h4 className="font-bold mb-1">Rejoindre la communauté</h4>
-                      <p className="text-sm opacity-90">Contactez-nous via WhatsApp</p>
+                      <h4 className="font-bold mb-1">{t('nav.joinUs')}</h4>
+                      <p className="text-sm opacity-90">{t('whatsapp.message')}</p>
                     </div>
                   </div>
                   <Button variant="secondary" size="sm" className="bg-white/20 text-white hover:bg-white/30 border-0">
-                    Adhérer maintenant
+                    {t('nav.joinUs')}
                   </Button>
                 </div>
               </CardContent>
@@ -158,22 +159,22 @@ ${message}`;
           <div>
             <Card className="border-0 bg-white/90 backdrop-blur-sm shadow-xl">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-sage mb-6">Nous rejoindre</h3>
+                <h3 className="text-2xl font-bold text-sage mb-6">{t('nav.joinUs')}</h3>
                 <p className="text-sm text-muted-foreground mb-6">
-                  Remplissez ce formulaire et votre message s'ouvrira automatiquement dans votre client email.
+                  {t('contact.subtitle')}
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-sage mb-2 block">
-                        Nom complet *
+                        {t('contact.form.name')} *
                       </label>
                       <Input
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Votre nom"
+                        placeholder={t('contact.form.name')}
                         required
                         maxLength={100}
                         className="border-sage/20 focus:border-sage"
@@ -181,14 +182,14 @@ ${message}`;
                     </div>
                     <div>
                       <label className="text-sm font-medium text-sage mb-2 block">
-                        Email *
+                        {t('contact.form.email')} *
                       </label>
                       <Input
                         name="email"
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="votre@email.com"
+                        placeholder={t('contact.form.email')}
                         required
                         maxLength={255}
                         className="border-sage/20 focus:border-sage"
@@ -199,7 +200,7 @@ ${message}`;
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-sage mb-2 block">
-                        Téléphone
+                        {t('contact.form.phone')}
                       </label>
                       <Input
                         name="phone"
@@ -212,13 +213,13 @@ ${message}`;
                     </div>
                     <div>
                       <label className="text-sm font-medium text-sage mb-2 block">
-                        Sujet *
+                        {t('contact.form.subject')} *
                       </label>
                       <Input
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        placeholder="Objet de votre message"
+                        placeholder={t('contact.form.subject')}
                         required
                         maxLength={200}
                         className="border-sage/20 focus:border-sage"
@@ -228,13 +229,13 @@ ${message}`;
 
                   <div>
                     <label className="text-sm font-medium text-sage mb-2 block">
-                      Message *
+                      {t('contact.form.message')} *
                     </label>
                     <Textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Décrivez votre demande ou question... (10-2000 caractères)"
+                      placeholder={t('contact.form.message')}
                       rows={5}
                       required
                       minLength={10}
@@ -249,7 +250,7 @@ ${message}`;
                     className="w-full bg-gradient-to-r from-sage to-gold text-white flex items-center gap-2"
                   >
                     <Mail className="w-5 h-5" />
-                    Envoyer par Email
+                    {t('contact.form.send')}
                   </Button>
                 </form>
               </CardContent>
