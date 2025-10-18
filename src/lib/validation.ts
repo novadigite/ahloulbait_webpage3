@@ -42,7 +42,21 @@ export const eventSchema = z.object({
     .trim()
     .max(2000, { message: "La description ne peut pas dépasser 2000 caractères" })
     .optional(),
-  event_date: z.string().datetime({ message: "Date invalide" }),
+  event_date: z
+    .string()
+    .min(1, { message: "La date est requise" })
+    .refine((val) => {
+      // Accept both datetime-local format (YYYY-MM-DDTHH:mm) and ISO format
+      const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
+      return dateRegex.test(val);
+    }, { message: "Format de date invalide" })
+    .transform((val) => {
+      // Convert datetime-local format to ISO string with timezone
+      if (!val.includes('Z') && !val.includes('+') && !val.includes('-', 11)) {
+        return new Date(val).toISOString();
+      }
+      return val;
+    }),
 });
 
 // Tafsir validation
