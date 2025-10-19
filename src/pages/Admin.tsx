@@ -71,6 +71,7 @@ const Admin = () => {
   const [description, setDescription] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [youtubeUrls, setYoutubeUrls] = useState('');
   
   // Tafsir
   const [tafsirs, setTafsirs] = useState<Tafsir[]>([]);
@@ -313,6 +314,7 @@ const Admin = () => {
 
       if (eventError) throw eventError;
 
+      // Upload files from computer
       if (selectedFiles && selectedFiles.length > 0) {
         for (let i = 0; i < selectedFiles.length; i++) {
           const file = selectedFiles[i];
@@ -342,6 +344,23 @@ const Admin = () => {
         }
       }
 
+      // Add YouTube URLs
+      if (youtubeUrls.trim()) {
+        const urls = youtubeUrls.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+        
+        for (const url of urls) {
+          const { error: mediaError } = await supabase
+            .from('event_media')
+            .insert({
+              event_id: eventData.id,
+              media_url: url,
+              media_type: 'video',
+            });
+
+          if (mediaError) throw mediaError;
+        }
+      }
+
       toast({
         title: "Événement créé",
         description: "L'événement a été publié avec succès.",
@@ -351,6 +370,7 @@ const Admin = () => {
       setDescription('');
       setEventDate('');
       setSelectedFiles(null);
+      setYoutubeUrls('');
       loadEvents();
       queryClient.invalidateQueries({ queryKey: ['events'] });
     } catch (error: any) {
@@ -783,7 +803,8 @@ const Admin = () => {
             </div>
             <div>
               <label htmlFor="media" className="block text-sm font-medium mb-2">
-                Photos et vidéos
+                <Upload className="inline w-4 h-4 mr-2" />
+                Uploader des fichiers (photos/vidéos)
               </label>
               <Input
                 id="media"
@@ -791,7 +812,26 @@ const Admin = () => {
                 multiple
                 accept="image/*,video/*"
                 onChange={(e) => setSelectedFiles(e.target.files)}
+                className="cursor-pointer"
               />
+              <p className="text-xs text-muted-foreground mt-1">
+                Sélectionnez plusieurs fichiers depuis votre ordinateur
+              </p>
+            </div>
+            <div>
+              <label htmlFor="youtubeUrls" className="block text-sm font-medium mb-2">
+                Liens YouTube (optionnel)
+              </label>
+              <Textarea
+                id="youtubeUrls"
+                value={youtubeUrls}
+                onChange={(e) => setYoutubeUrls(e.target.value)}
+                rows={3}
+                placeholder="https://www.youtube.com/watch?v=...&#10;https://www.youtube.com/watch?v=...&#10;(Un lien par ligne)"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Collez les liens YouTube, un par ligne
+              </p>
             </div>
           </>
         );

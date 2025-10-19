@@ -51,6 +51,20 @@ const Events = () => {
     }
   };
 
+  const getYoutubeEmbedUrl = (url: string): string | null => {
+    // Check if it's a YouTube URL and convert to embed format
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(youtubeRegex);
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return null;
+  };
+
+  const isYoutubeUrl = (url: string): boolean => {
+    return url.includes('youtube.com') || url.includes('youtu.be');
+  };
+
   const loadEventMedia = async () => {
     try {
       const { data: mediaData, error: mediaError } = await supabase
@@ -161,11 +175,29 @@ const Events = () => {
                       <DialogTrigger asChild>
                         <div className="relative h-56 sm:h-64 md:h-72 cursor-pointer overflow-hidden bg-gradient-to-br from-sage/5 to-emerald/5">
                           {thumbnail.media_type === 'video' ? (
-                            <video
-                              src={signedUrls[thumbnail.id] || thumbnail.media_url}
-                              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
-                              preload="metadata"
-                            />
+                            isYoutubeUrl(thumbnail.media_url) ? (
+                              <div className="w-full h-full relative">
+                                <img 
+                                  src={`https://img.youtube.com/vi/${thumbnail.media_url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1]}/maxresdefault.jpg`}
+                                  alt={event.title}
+                                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
+                                  onError={(e) => {
+                                    e.currentTarget.src = `https://img.youtube.com/vi/${thumbnail.media_url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1]}/hqdefault.jpg`;
+                                  }}
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                                    <Video className="w-8 h-8 text-white ml-1" />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <video
+                                src={signedUrls[thumbnail.id] || thumbnail.media_url}
+                                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
+                                preload="metadata"
+                              />
+                            )
                           ) : (
                             <img
                               src={signedUrls[thumbnail.id] || thumbnail.media_url}
@@ -194,15 +226,25 @@ const Events = () => {
                               <CarouselItem key={item.id}>
                                 <div className="relative w-full bg-black/5 rounded-lg overflow-hidden flex items-center justify-center min-h-[60vh]">
                                   {item.media_type === 'video' ? (
-                                    <video
-                                      src={signedUrls[item.id] || item.media_url}
-                                      controls
-                                      controlsList="nodownload"
-                                      preload="metadata"
-                                      className="w-full h-auto max-h-[75vh] rounded-lg"
-                                    >
-                                      Votre navigateur ne supporte pas la lecture de vidéos.
-                                    </video>
+                                    isYoutubeUrl(item.media_url) ? (
+                                      <iframe
+                                        src={getYoutubeEmbedUrl(item.media_url) || item.media_url}
+                                        className="w-full aspect-video rounded-lg"
+                                        style={{ minHeight: '60vh' }}
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                      />
+                                    ) : (
+                                      <video
+                                        src={signedUrls[item.id] || item.media_url}
+                                        controls
+                                        controlsList="nodownload"
+                                        preload="metadata"
+                                        className="w-full h-auto max-h-[75vh] rounded-lg"
+                                      >
+                                        Votre navigateur ne supporte pas la lecture de vidéos.
+                                      </video>
+                                    )
                                   ) : (
                                     <img
                                       src={signedUrls[item.id] || item.media_url}
