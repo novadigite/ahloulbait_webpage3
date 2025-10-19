@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Image as ImageIcon, Video } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import TafsirSection from './TafsirSection';
 import SiraSection from './SiraSection';
 import FatwasSection from './FatwasSection';
@@ -187,29 +188,35 @@ const Events = () => {
                         </div>
                       </DialogTrigger>
                       <DialogContent className="max-w-7xl w-[95vw] max-h-[90vh] p-4 sm:p-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 overflow-y-auto max-h-[80vh] pr-2">
-                          {media.map((item) => (
-                            <div key={item.id} className="relative w-full bg-black/5 rounded-lg overflow-hidden flex items-center justify-center min-h-[200px]">
-                              {item.media_type === 'video' ? (
-                                <video
-                                  src={signedUrls[item.id] || item.media_url}
-                                  controls
-                                  controlsList="nodownload"
-                                  preload="metadata"
-                                  className="w-full h-auto max-h-[70vh] rounded-lg"
-                                >
-                                  Votre navigateur ne supporte pas la lecture de vidéos.
-                                </video>
-                              ) : (
-                                <img
-                                  src={signedUrls[item.id] || item.media_url}
-                                  alt={event.title}
-                                  className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
-                                />
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                        <Carousel className="w-full">
+                          <CarouselContent>
+                            {media.map((item) => (
+                              <CarouselItem key={item.id}>
+                                <div className="relative w-full bg-black/5 rounded-lg overflow-hidden flex items-center justify-center min-h-[60vh]">
+                                  {item.media_type === 'video' ? (
+                                    <video
+                                      src={signedUrls[item.id] || item.media_url}
+                                      controls
+                                      controlsList="nodownload"
+                                      preload="metadata"
+                                      className="w-full h-auto max-h-[75vh] rounded-lg"
+                                    >
+                                      Votre navigateur ne supporte pas la lecture de vidéos.
+                                    </video>
+                                  ) : (
+                                    <img
+                                      src={signedUrls[item.id] || item.media_url}
+                                      alt={event.title}
+                                      className="w-full h-auto max-h-[75vh] object-contain rounded-lg"
+                                    />
+                                  )}
+                                </div>
+                              </CarouselItem>
+                            ))}
+                          </CarouselContent>
+                          <CarouselPrevious className="left-2 sm:left-4" />
+                          <CarouselNext className="right-2 sm:right-4" />
+                        </Carousel>
                       </DialogContent>
                     </Dialog>
                   )}
