@@ -43,9 +43,9 @@ Deno.serve(async (req) => {
     const { data, error } = await supabaseClient.rpc('is_admin')
 
     if (error) {
-      console.error('Error checking admin status:', error.message)
+      console.error('Admin check failed')
       return new Response(
-        JSON.stringify({ isAdmin: false, error: error.message }),
+        JSON.stringify({ isAdmin: false, error: 'Admin check failed' }),
         { 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 500 
@@ -53,9 +53,9 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Only log in development environment
+    // Only log sanitized events in development
     if (Deno.env.get('ENVIRONMENT') === 'development') {
-      console.log('Admin check result:', data, 'for user:', user.id)
+      console.log('Admin check:', data === true ? 'success' : 'denied')
     }
 
     return new Response(
@@ -66,10 +66,9 @@ Deno.serve(async (req) => {
       }
     )
   } catch (error) {
-    console.error('Unexpected error:', error)
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Admin check error')
     return new Response(
-      JSON.stringify({ isAdmin: false, error: errorMessage }),
+      JSON.stringify({ isAdmin: false, error: 'Admin check failed' }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500 
