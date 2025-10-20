@@ -30,6 +30,17 @@ const httpsUrlSchema = z
   .startsWith('https://', { message: "L'URL doit commencer par https://" })
   .or(z.literal(''));
 
+// YouTube URL validation
+export const youtubeUrlSchema = z
+  .string()
+  .trim()
+  .max(500, { message: "L'URL ne peut pas dépasser 500 caractères" })
+  .url({ message: "URL YouTube invalide" })
+  .refine(url => url.startsWith('https://'), { message: "L'URL doit utiliser HTTPS" })
+  .refine(url => /^https:\/\/(www\.)?(youtube\.com|youtu\.be)/.test(url), { 
+    message: "L'URL doit provenir de YouTube (youtube.com ou youtu.be)" 
+  });
+
 // Event validation
 export const eventSchema = z.object({
   title: z

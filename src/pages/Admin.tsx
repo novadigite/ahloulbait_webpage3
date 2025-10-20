@@ -19,7 +19,8 @@ import {
   validateFile, 
   imageFileSchema, 
   audioFileSchema,
-  videoFileSchema 
+  videoFileSchema,
+  youtubeUrlSchema
 } from '@/lib/validation';
 
 type ContentType = 'event' | 'tafsir' | 'sira' | 'fatwa';
@@ -349,11 +350,17 @@ const Admin = () => {
         const urls = youtubeUrls.split('\n').map(url => url.trim()).filter(url => url.length > 0);
         
         for (const url of urls) {
+          // Validate YouTube URL
+          const validation = youtubeUrlSchema.safeParse(url);
+          if (!validation.success) {
+            throw new Error(`URL invalide: ${url} - ${validation.error.errors[0].message}`);
+          }
+
           const { error: mediaError } = await supabase
             .from('event_media')
             .insert({
               event_id: eventData.id,
-              media_url: url,
+              media_url: validation.data,
               media_type: 'video',
             });
 
