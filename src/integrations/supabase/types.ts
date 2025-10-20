@@ -89,7 +89,7 @@ export type Database = {
           audio_url: string
           category: string | null
           created_at: string
-          created_by: string
+          created_by: string | null
           id: string
           question: string
           questioner_name: string | null
@@ -99,7 +99,7 @@ export type Database = {
           audio_url: string
           category?: string | null
           created_at?: string
-          created_by: string
+          created_by?: string | null
           id?: string
           question: string
           questioner_name?: string | null
@@ -109,13 +109,21 @@ export type Database = {
           audio_url?: string
           category?: string | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           id?: string
           question?: string
           questioner_name?: string | null
           scholar_name?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fatwas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -144,7 +152,7 @@ export type Database = {
       sira: {
         Row: {
           created_at: string
-          created_by: string
+          created_by: string | null
           description: string | null
           duration: string | null
           id: string
@@ -154,7 +162,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          created_by: string
+          created_by?: string | null
           description?: string | null
           duration?: string | null
           id?: string
@@ -164,7 +172,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           duration?: string | null
           id?: string
@@ -172,13 +180,21 @@ export type Database = {
           title?: string
           video_url?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "sira_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tafsir: {
         Row: {
           content: string | null
           created_at: string
-          created_by: string
+          created_by: string | null
           description: string | null
           id: string
           surah_name: string
@@ -189,7 +205,7 @@ export type Database = {
         Insert: {
           content?: string | null
           created_at?: string
-          created_by: string
+          created_by?: string | null
           description?: string | null
           id?: string
           surah_name: string
@@ -200,7 +216,7 @@ export type Database = {
         Update: {
           content?: string | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           surah_name?: string
@@ -208,7 +224,15 @@ export type Database = {
           title?: string
           video_url?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tafsir_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
