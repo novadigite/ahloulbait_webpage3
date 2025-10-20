@@ -20,7 +20,8 @@ import {
   imageFileSchema, 
   audioFileSchema,
   videoFileSchema,
-  youtubeUrlSchema
+  youtubeUrlSchema,
+  getSafeFileExtension
 } from '@/lib/validation';
 
 type ContentType = 'event' | 'tafsir' | 'sira' | 'fatwa';
@@ -319,7 +320,7 @@ const Admin = () => {
       if (selectedFiles && selectedFiles.length > 0) {
         for (let i = 0; i < selectedFiles.length; i++) {
           const file = selectedFiles[i];
-          const fileExt = file.name.split('.').pop();
+          const fileExt = getSafeFileExtension(file);
           const fileName = `${eventData.id}/${Date.now()}-${i}.${fileExt}`;
           const mediaType = file.type.startsWith('video/') ? 'video' : 'image';
 
@@ -496,7 +497,7 @@ const Admin = () => {
       let thumbnailUrl = '';
 
       if (thumbnailFile) {
-        const fileExt = thumbnailFile.name.split('.').pop();
+        const fileExt = getSafeFileExtension(thumbnailFile);
         const fileName = `sira/${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
@@ -596,7 +597,7 @@ const Admin = () => {
       let audioUrl = '';
 
       if (audioFile) {
-        const fileExt = audioFile.name.split('.').pop();
+        const fileExt = getSafeFileExtension(audioFile);
         const fileName = `fatwas/${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
