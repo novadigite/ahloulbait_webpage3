@@ -101,7 +101,7 @@ const ChatRAG = () => {
         size="lg"
       >
         <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
-        <span className="hidden sm:inline">Poser une question</span>
+        <span>Poser une question</span>
       </Button>
 
       {/* Chat Window */}
