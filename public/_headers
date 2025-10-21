@@ -1,16 +1,19 @@
 /*
-  # Security Headers
+  # Security Headers - Configuration de sécurité renforcée
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   
-  # Strict Transport Security (HSTS)
+  # Strict Transport Security (HSTS) - Force HTTPS pendant 2 ans
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   
-  # Content Security Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://smabsqwnuvgohvxfsfyx.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' https: blob:; connect-src 'self' https://smabsqwnuvgohvxfsfyx.supabase.co wss://smabsqwnuvgohvxfsfyx.supabase.co https://storage.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  # Content Security Policy - Protection XSS et injection
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://smabsqwnuvgohvxfsfyx.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' https: blob:; connect-src 'self' https://smabsqwnuvgohvxfsfyx.supabase.co wss://smabsqwnuvgohvxfsfyx.supabase.co https://storage.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  
+  # Cookie Security
+  Set-Cookie: Secure; HttpOnly; SameSite=Strict
 
 # Service Worker
 /sw.js
