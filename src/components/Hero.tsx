@@ -22,6 +22,8 @@ const Hero = () => {
           src={cheikhBanner} 
           alt="AHLOUL BAIT Community" 
           className="w-full h-full object-cover opacity-30"
+          fetchPriority="high"
+          loading="eager"
         />
         {/* Floating particles */}
         <div className="absolute inset-0 z-20">
