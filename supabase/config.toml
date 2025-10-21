@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.log-audit]
 verify_jwt = true
+
+[functions.ahloul-bait-chat]
+verify_jwt = false
