@@ -22,7 +22,6 @@ const Events = () => {
   const { t } = useTranslation();
   const { data: events = [], isLoading: loading } = useEvents();
   const [eventMedia, setEventMedia] = useState<Record<string, EventMedia[]>>({});
-  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (events.length > 0) {
@@ -30,25 +29,18 @@ const Events = () => {
     }
   }, [events]);
 
-  const getSignedUrl = async (url: string, mediaType: string): Promise<string> => {
+  const getPublicUrl = (url: string): string => {
+    // If it's already a full URL (YouTube, external), return as is
     if (url.startsWith('http')) {
       return url;
     }
     
-    try {
-      const bucket = mediaType === 'video' ? 'videos' : 'images';
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .createSignedUrl(url, 3600);
-      
-      if (error) throw error;
-      return data.signedUrl;
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error generating signed URL:', error);
-      }
-      return url;
-    }
+    // Build public URL for event-media bucket
+    const { data } = supabase.storage
+      .from('event-media')
+      .getPublicUrl(url);
+    
+    return data.publicUrl;
   };
 
   const getYoutubeEmbedUrl = (url: string): string | null => {
@@ -83,13 +75,6 @@ const Events = () => {
       });
 
       setEventMedia(mediaByEvent);
-
-      const urls: { [key: string]: string } = {};
-      for (const media of mediaData || []) {
-        const signedUrl = await getSignedUrl(media.media_url, media.media_type);
-        urls[media.id] = signedUrl;
-      }
-      setSignedUrls(urls);
     } catch (error) {
       if (import.meta.env.DEV) {
         console.error('Error loading event media:', error);
@@ -193,14 +178,14 @@ const Events = () => {
                               </div>
                             ) : (
                               <video
-                                src={signedUrls[thumbnail.id] || thumbnail.media_url}
+                                src={getPublicUrl(thumbnail.media_url)}
                                 className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
                                 preload="metadata"
                               />
                             )
                           ) : (
                             <img
-                              src={signedUrls[thumbnail.id] || thumbnail.media_url}
+                              src={getPublicUrl(thumbnail.media_url)}
                               alt={event.title}
                               className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
                             />
@@ -236,7 +221,7 @@ const Events = () => {
                                       />
                                     ) : (
                                       <video
-                                        src={signedUrls[item.id] || item.media_url}
+                                        src={getPublicUrl(item.media_url)}
                                         controls
                                         controlsList="nodownload"
                                         preload="metadata"
@@ -247,7 +232,7 @@ const Events = () => {
                                     )
                                   ) : (
                                     <img
-                                      src={signedUrls[item.id] || item.media_url}
+                                      src={getPublicUrl(item.media_url)}
                                       alt={event.title}
                                       className="w-full h-auto max-h-[75vh] object-contain rounded-lg"
                                     />
