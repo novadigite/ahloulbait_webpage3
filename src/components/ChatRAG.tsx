@@ -97,24 +97,25 @@ const ChatRAG = () => {
       {/* Chat Button */}
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-6 z-40 bg-emerald hover:bg-emerald-dark text-white shadow-floating hover:shadow-elegant transition-all duration-300 hover:scale-110 rounded-full px-4 py-2 h-auto flex items-center gap-2"
+        className="fixed bottom-20 right-4 md:right-6 z-40 bg-emerald hover:bg-emerald-dark text-white shadow-floating hover:shadow-elegant transition-all duration-300 hover:scale-110 rounded-full px-3 md:px-4 py-2 h-auto flex items-center gap-2 text-sm md:text-base animate-fade-in"
         size="lg"
       >
-        💬 Poser une question
+        <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
+        <span className="hidden sm:inline">Poser une question</span>
       </Button>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-32 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] animate-scale-in">
-          <Card className="border-emerald/20 shadow-elegant bg-white/95 backdrop-blur-md">
-            <CardHeader className="bg-gradient-to-r from-emerald to-sage text-white p-4 rounded-t-lg">
+        <div className="fixed inset-x-4 bottom-4 md:inset-x-auto md:bottom-32 md:right-6 z-50 md:w-96 animate-scale-in">
+          <Card className="border-emerald/20 shadow-elegant bg-background backdrop-blur-md h-[calc(100vh-6rem)] md:h-auto">
+            <CardHeader className="bg-gradient-to-r from-emerald to-sage text-white p-3 md:p-4 rounded-t-lg">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                    <Bot className="w-5 h-5" />
+                <div className="flex items-center space-x-2 md:space-x-3">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
+                    <Bot className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm">Assistant AHLOUL BAIT</h3>
+                    <h3 className="font-bold text-sm md:text-base">Assistant AHLOUL BAIT</h3>
                     <p className="text-xs opacity-90">En ligne</p>
                   </div>
                 </div>
@@ -122,23 +123,24 @@ const ChatRAG = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
-                  className="text-white hover:bg-white/20 p-1 h-auto"
+                  className="text-white hover:bg-white/20 p-1 h-auto transition-all hover:scale-110"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4 md:w-5 md:h-5" />
                 </Button>
               </div>
             </CardHeader>
 
-            <CardContent className="p-0">
+            <CardContent className="p-0 flex flex-col h-[calc(100%-5rem)] md:h-auto">
               {/* Messages */}
-              <div className="h-80 overflow-y-auto p-4 space-y-4">
-                {messages.map((message) => (
+              <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 md:space-y-4 md:h-80 scroll-smooth">
+                {messages.map((message, index) => (
                   <div
                     key={message.id}
-                    className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                    className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
+                    style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg p-3 ${
+                      className={`max-w-[85%] md:max-w-[80%] rounded-lg p-3 transition-all hover:shadow-md ${
                         message.isUser
                           ? 'bg-emerald text-white'
                           : 'bg-sage-light text-sage-dark'
@@ -151,7 +153,7 @@ const ChatRAG = () => {
                         {message.isUser && (
                           <User className="w-4 h-4 mt-1 flex-shrink-0" />
                         )}
-                        <div className="text-sm whitespace-pre-line">
+                        <div className="text-sm whitespace-pre-line break-words">
                           {message.content}
                         </div>
                       </div>
@@ -160,7 +162,7 @@ const ChatRAG = () => {
                 ))}
                 
                 {isTyping && (
-                  <div className="flex justify-start">
+                  <div className="flex justify-start animate-fade-in">
                     <div className="bg-sage-light text-sage-dark rounded-lg p-3 max-w-[80%]">
                       <div className="flex items-center space-x-2">
                         <Bot className="w-4 h-4" />
@@ -176,19 +178,19 @@ const ChatRAG = () => {
               </div>
 
               {/* Input */}
-              <div className="p-4 border-t border-sage/10">
+              <div className="p-3 md:p-4 border-t border-sage/10 bg-background">
                 <div className="flex space-x-2">
                   <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Posez votre question..."
-                    className="border-sage/20 focus:border-emerald"
+                    className="border-sage/20 focus:border-emerald transition-all text-sm md:text-base"
                     onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   />
                   <Button
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim() || isTyping}
-                    className="bg-emerald hover:bg-emerald-dark text-white p-2"
+                    className="bg-emerald hover:bg-emerald-dark text-white p-2 transition-all hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
                   >
                     <Send className="w-4 h-4" />
                   </Button>
