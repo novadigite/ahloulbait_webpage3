@@ -35,7 +35,13 @@ const Leadership = () => {
                 {/* Photo Section */}
                 <div className="relative">
                   <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
-                    <img src={cheikhPhoto} alt="Cheikh Ahmad Tidjani Diabaté" className="w-full h-full object-cover" />
+                    <img 
+                      src={cheikhPhoto} 
+                      alt="Cheikh Ahmad Tidjani Diabaté" 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-sage/20 to-transparent"></div>
                   </div>
                 </div>
