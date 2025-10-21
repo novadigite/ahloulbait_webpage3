@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          ip_address: unknown | null
+          new_data: Json | null
+          old_data: Json | null
+          record_id: string | null
+          table_name: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string | null
+          table_name?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string | null
+          table_name?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      auth_attempts: {
+        Row: {
+          attempt_type: string
+          attempts_count: number
+          blocked_until: string | null
+          created_at: string
+          first_attempt_at: string
+          id: string
+          identifier: string
+          last_attempt_at: string
+        }
+        Insert: {
+          attempt_type: string
+          attempts_count?: number
+          blocked_until?: string | null
+          created_at?: string
+          first_attempt_at?: string
+          id?: string
+          identifier: string
+          last_attempt_at?: string
+        }
+        Update: {
+          attempt_type?: string
+          attempts_count?: number
+          blocked_until?: string | null
+          created_at?: string
+          first_attempt_at?: string
+          id?: string
+          identifier?: string
+          last_attempt_at?: string
+        }
+        Relationships: []
+      }
       event_media: {
         Row: {
           created_at: string
@@ -263,6 +335,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_old_audit_logs: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      cleanup_old_auth_attempts: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       has_role: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean

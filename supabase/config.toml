@@ -1,1 +1,13 @@
 project_id = "smabsqwnuvgohvxfsfyx"
+
+[functions.check-admin]
+verify_jwt = true
+
+[functions.import-tafsir]
+verify_jwt = true
+
+[functions.check-rate-limit]
+verify_jwt = false
+
+[functions.log-audit]
+verify_jwt = true

@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { LogIn } from 'lucide-react';
+import { LogIn, Shield } from 'lucide-react';
 import { authSchema } from '@/lib/validation';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -55,6 +56,30 @@ const Auth = () => {
         });
         setLoading(false);
         return;
+      }
+
+      // Check rate limit
+      const rateLimitResult = await checkRateLimit(
+        result.data.email,
+        isLogin ? 'login' : 'signup'
+      );
+
+      if (!rateLimitResult.allowed) {
+        toast({
+          title: "Trop de tentatives",
+          description: rateLimitResult.message || `Réessayez dans ${rateLimitResult.remainingMinutes} minute(s).`,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (rateLimitResult.attemptsRemaining && rateLimitResult.attemptsRemaining <= 2) {
+        toast({
+          title: "Attention",
+          description: `${rateLimitResult.attemptsRemaining} tentative(s) restante(s).`,
+          variant: "default",
+        });
       }
 
       if (isLogin) {

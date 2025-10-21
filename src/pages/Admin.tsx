@@ -23,6 +23,8 @@ import {
   youtubeUrlSchema,
   getSafeFileExtension
 } from '@/lib/validation';
+import { logAudit } from '@/lib/auditLog';
+import TwoFactorAuth from '@/components/TwoFactorAuth';
 
 type ContentType = 'event' | 'tafsir' | 'sira' | 'fatwa';
 
@@ -653,12 +655,23 @@ const Admin = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) return;
 
     try {
+      // Get event data before deletion for audit log
+      const eventToDelete = events.find(e => e.id === eventId);
+
       const { error } = await supabase
         .from('events')
         .delete()
         .eq('id', eventId);
 
       if (error) throw error;
+
+      // Log audit
+      await logAudit({
+        action: 'DELETE_EVENT',
+        tableName: 'events',
+        recordId: eventId,
+        oldData: eventToDelete
+      });
 
       toast({
         title: "Événement supprimé",
@@ -680,12 +693,21 @@ const Admin = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce tafsir ?')) return;
 
     try {
+      const tafsirToDelete = tafsirs.find(t => t.id === tafsirId);
+
       const { error } = await supabase
         .from('tafsir')
         .delete()
         .eq('id', tafsirId);
 
       if (error) throw error;
+
+      await logAudit({
+        action: 'DELETE_TAFSIR',
+        tableName: 'tafsir',
+        recordId: tafsirId,
+        oldData: tafsirToDelete
+      });
 
       toast({
         title: "Tafsir supprimé",
@@ -707,12 +729,21 @@ const Admin = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette sira ?')) return;
 
     try {
+      const siraToDelete = siras.find(s => s.id === siraId);
+
       const { error } = await supabase
         .from('sira')
         .delete()
         .eq('id', siraId);
 
       if (error) throw error;
+
+      await logAudit({
+        action: 'DELETE_SIRA',
+        tableName: 'sira',
+        recordId: siraId,
+        oldData: siraToDelete
+      });
 
       toast({
         title: "Sira supprimée",
@@ -734,12 +765,21 @@ const Admin = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette fatwa ?')) return;
 
     try {
+      const fatwaToDelete = fatwas.find(f => f.id === fatwaId);
+
       const { error } = await supabase
         .from('fatwas')
         .delete()
         .eq('id', fatwaId);
 
       if (error) throw error;
+
+      await logAudit({
+        action: 'DELETE_FATWA',
+        tableName: 'fatwas',
+        recordId: fatwaId,
+        oldData: fatwaToDelete
+      });
 
       toast({
         title: "Fatwa supprimée",
@@ -1108,11 +1148,12 @@ const Admin = () => {
         </Card>
 
         <Tabs defaultValue="events" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="events">Événements</TabsTrigger>
             <TabsTrigger value="tafsirs">Tafsirs</TabsTrigger>
             <TabsTrigger value="siras">Siras</TabsTrigger>
             <TabsTrigger value="fatwas">Fatwas</TabsTrigger>
+            <TabsTrigger value="security">Sécurité</TabsTrigger>
           </TabsList>
 
           <TabsContent value="events">
@@ -1263,6 +1304,13 @@ const Admin = () => {
                   </Card>
                 ))
               )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="security">
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-sage">Paramètres de Sécurité</h2>
+              <TwoFactorAuth />
             </div>
           </TabsContent>
         </Tabs>

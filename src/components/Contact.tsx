@@ -8,6 +8,7 @@ import PrayerTimes from './PrayerTimes';
 import { useToast } from '@/hooks/use-toast';
 import { contactSchema } from '@/lib/validation';
 import { useTranslation } from 'react-i18next';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -19,41 +20,69 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate with Zod schema
-    const result = contactSchema.safeParse(formData);
-
-    if (!result.success) {
-      const firstError = result.error.errors[0];
-      toast({
-        title: t('contact.form.error'),
-        description: firstError.message,
-        variant: "destructive",
-      });
-      return;
-    }
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     
-    // Use validated data
-    const { name, email, phone, subject, message } = result.data;
+    try {
+      // Validate with Zod schema
+      const result = contactSchema.safeParse(formData);
 
-    const emailBody = `Nom: ${name}
+      if (!result.success) {
+        const firstError = result.error.errors[0];
+        toast({
+          title: t('contact.form.error'),
+          description: firstError.message,
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      // Check rate limit (3 messages per hour)
+      const rateLimitResult = await checkRateLimit(result.data.email, 'contact');
+      
+      if (!rateLimitResult.allowed) {
+        toast({
+          title: "Trop de messages envoyés",
+          description: rateLimitResult.message || `Veuillez patienter ${rateLimitResult.remainingMinutes} minute(s) avant d'envoyer un nouveau message.`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (rateLimitResult.attemptsRemaining && rateLimitResult.attemptsRemaining === 1) {
+        toast({
+          title: "Attention",
+          description: "Dernier message autorisé pour cette heure.",
+          variant: "default",
+        });
+      }
+      
+      // Use validated data
+      const { name, email, phone, subject, message } = result.data;
+
+      const emailBody = `Nom: ${name}
 Email: ${email}
 Téléphone: ${phone || 'Non renseigné'}
 
 Message:
 ${message}`;
-    
-    // Create mailto URL with proper encoding
-    const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open email client
-    window.location.href = mailtoUrl;
-    
-    // Reset form
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      
+      // Create mailto URL with proper encoding
+      const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open email client
+      window.location.href = mailtoUrl;
+      
+      // Reset form
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -247,10 +276,11 @@ ${message}`;
                   <Button
                     type="submit"
                     size="lg"
+                    disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-sage to-gold text-white flex items-center gap-2"
                   >
                     <Mail className="w-5 h-5" />
-                    {t('contact.form.send')}
+                    {isSubmitting ? 'Envoi en cours...' : t('contact.form.send')}
                   </Button>
                 </form>
               </CardContent>
