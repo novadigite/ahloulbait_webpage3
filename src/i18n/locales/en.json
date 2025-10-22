@@ -121,6 +121,10 @@
     "subtitle": "Enlightened spiritual leadership and a team dedicated to serving the community",
     "spiritualGuide": "Spiritual Guide",
     "founder": "Founder and Moral Authority of AHLOUL BAIT",
+    "bio": {
+      "paragraph1": "Imam of the Grand Mosque of Abobo and respected spiritual guide and peace ambassador in Ivory Coast, Cheikh Ahmad Tidjani Diabaté dedicates his life to teaching authentic Islamic values and serving the community.",
+      "paragraph2": "Under his enlightened leadership, AHLOUL BAIT has become a reference in spirituality, solidarity and social peace in Ivory Coast and around the world."
+    },
     "achievements": [
       "Recognized spiritual guide of the Tidjaniya path",
       "Founder and Moral Authority of AHLOUL BAIT",
@@ -136,6 +140,13 @@
       "authority": "Spiritual authority",
       "years": "years",
       "location": "Ivory Coast"
+    },
+    "team": {
+      "title": "A Dedicated Team",
+      "description": "Our organization relies on a passionate team of committed men and women, united by the same values of spirituality, solidarity and service. Together, we work daily for the well-being of our community and the transmission of authentic Islamic teachings.",
+      "leaders": "Community leaders",
+      "volunteers": "Active volunteers",
+      "experience": "Years of experience"
     },
     "vision": "Vision & Mission",
     "biography": "Biography"

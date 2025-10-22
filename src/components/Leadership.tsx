@@ -56,13 +56,10 @@ const Leadership = () => {
 
                   <div className="space-y-4 mb-8">
                     <p className="text-muted-foreground leading-relaxed">
-                      Imam de la Grande Mosquée d'Abobo et guide spirituel respecté et ambassadeur de la paix en CI,
-                      Cheikh Ahmad Tidjani Diabaté consacre sa vie à l'enseignement des valeurs islamiques authentiques
-                      et au service de la communauté.
+                      {t('leadership.bio.paragraph1')}
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                      Sous sa direction éclairée, AHLOUL BAIT est devenue une référence en matière de spiritualité, de
-                      solidarité et de paix sociale en Côte d'Ivoire et dans le monde.
+                      {t('leadership.bio.paragraph2')}
                     </p>
                   </div>
 
@@ -103,25 +100,23 @@ const Leadership = () => {
         {/* Team Section */}
         <div className="text-center">
           <div className="bg-gradient-to-r from-sage-light/30 to-gold-light/30 rounded-3xl p-12 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-sage mb-6">Une Équipe Dévouée</h3>
+            <h3 className="text-2xl font-bold text-sage mb-6">{t('leadership.team.title')}</h3>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Notre organisation s'appuie sur une équipe passionnée d'hommes et de femmes engagés, unis par les mêmes
-              valeurs de spiritualité, de solidarité et de service. Ensemble, nous œuvrons quotidiennement pour le
-              bien-être de notre communauté et la transmission des enseignements authentiques de l'Islam.
+              {t('leadership.team.description')}
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-center">
               <div>
                 <div className="text-2xl font-bold text-sage mb-1">25+</div>
-                <div className="text-sm text-muted-foreground">Responsables communautaires</div>
+                <div className="text-sm text-muted-foreground">{t('leadership.team.leaders')}</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-sage mb-1">100+</div>
-                <div className="text-sm text-muted-foreground">Bénévoles actifs</div>
+                <div className="text-sm text-muted-foreground">{t('leadership.team.volunteers')}</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-sage mb-1">15+</div>
-                <div className="text-sm text-muted-foreground">Années d'expérience</div>
+                <div className="text-sm text-muted-foreground">{t('leadership.team.experience')}</div>
               </div>
             </div>
           </div>

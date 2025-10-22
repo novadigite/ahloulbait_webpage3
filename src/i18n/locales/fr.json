@@ -118,24 +118,35 @@
   },
   "leadership": {
     "title": "Notre Leadership",
-    "subtitle": "Une direction spirituelle éclairée et une équipe dévouée au service de la communauté",
+    "subtitle": "Un leadership spirituel éclairé et une équipe dévouée au service de la communauté",
     "spiritualGuide": "Guide Spirituel",
     "founder": "Fondateur et Autorité Morale d'AHLOUL BAIT",
+    "bio": {
+      "paragraph1": "Imam de la Grande Mosquée d'Abobo et guide spirituel respecté et ambassadeur de la paix en CI, Cheikh Ahmad Tidjani Diabaté consacre sa vie à l'enseignement des valeurs islamiques authentiques et au service de la communauté.",
+      "paragraph2": "Sous sa direction éclairée, AHLOUL BAIT est devenue une référence en matière de spiritualité, de solidarité et de paix sociale en Côte d'Ivoire et dans le monde."
+    },
     "achievements": [
       "Guide spirituel reconnu de la voie Tidjaniya",
       "Fondateur et Autorité Morale d'AHLOUL BAIT",
       "Imam de la Grande Mosquée d'Abobo",
-      "Ambassadeur de la Paix en côte d'ivoire"
+      "Ambassadeur de la paix en Côte d'Ivoire"
     ],
     "qualities": {
       "leadership": "Leadership",
       "recognition": "Reconnaissance",
       "experience": "Expérience",
       "presence": "Présence",
-      "followers": "followers",
+      "followers": "fidèles",
       "authority": "Autorité spirituelle",
-      "years": "années",
+      "years": "ans",
       "location": "Côte d'Ivoire"
+    },
+    "team": {
+      "title": "Une Équipe Dévouée",
+      "description": "Notre organisation s'appuie sur une équipe passionnée d'hommes et de femmes engagés, unis par les mêmes valeurs de spiritualité, de solidarité et de service. Ensemble, nous œuvrons quotidiennement pour le bien-être de notre communauté et la transmission des enseignements authentiques de l'Islam.",
+      "leaders": "Responsables communautaires",
+      "volunteers": "Bénévoles actifs",
+      "experience": "Années d'expérience"
     },
     "vision": "Vision & Mission",
     "biography": "Biographie"
