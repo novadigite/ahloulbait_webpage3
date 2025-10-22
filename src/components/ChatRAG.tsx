@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface Message {
   id: string;
@@ -16,11 +17,12 @@ interface Message {
 
 const ChatRAG = () => {
   const { toast } = useToast();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: 'Assalamu alaikum ! Je suis l\'assistant virtuel d\'AHLOUL BAIT. Comment puis-je vous aider à mieux connaître notre organisation ?',
+      content: t('chat.welcome'),
       isUser: false,
       timestamp: new Date()
     }
@@ -57,14 +59,17 @@ const ChatRAG = () => {
       });
 
       const { data, error } = await supabase.functions.invoke('ahloul-bait-chat', {
-        body: { messages: conversationHistory }
+        body: { 
+          messages: conversationHistory,
+          language: i18n.language 
+        }
       });
 
       if (error) throw error;
 
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.reply || 'Désolé, je n\'ai pas pu générer une réponse. Veuillez réessayer.',
+        content: data.reply || t('chat.errorMessage'),
         isUser: false,
         timestamp: new Date()
       };
@@ -75,7 +80,7 @@ const ChatRAG = () => {
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'Désolé, une erreur est survenue. Veuillez réessayer dans quelques instants.',
+        content: t('chat.errorMessage'),
         isUser: false,
         timestamp: new Date()
       };
@@ -83,8 +88,8 @@ const ChatRAG = () => {
       setMessages(prev => [...prev, errorMessage]);
       
       toast({
-        title: "Erreur",
-        description: "Impossible d'obtenir une réponse. Veuillez réessayer.",
+        title: t('chat.errorTitle'),
+        description: t('chat.errorDescription'),
         variant: "destructive"
       });
     } finally {
@@ -101,7 +106,7 @@ const ChatRAG = () => {
         size="lg"
       >
         <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
-        <span>Poser une question</span>
+        <span>{t('chat.askQuestion')}</span>
       </Button>
 
       {/* Chat Window */}
@@ -115,8 +120,8 @@ const ChatRAG = () => {
                     <Bot className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm md:text-base">Assistant AHLOUL BAIT</h3>
-                    <p className="text-xs opacity-90">En ligne</p>
+                    <h3 className="font-bold text-sm md:text-base">{t('chat.assistant')}</h3>
+                    <p className="text-xs opacity-90">{t('chat.online')}</p>
                   </div>
                 </div>
                 <Button
@@ -183,7 +188,7 @@ const ChatRAG = () => {
                   <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="Posez votre question..."
+                    placeholder={t('chat.placeholder')}
                     className="border-sage/20 focus:border-emerald transition-all text-sm md:text-base"
                     onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   />

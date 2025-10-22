@@ -201,5 +201,15 @@
         "a": "La Tidjaniya est une confrérie soufie fondée par Cheikh Ahmad Tijani. Elle met l'accent sur la purification spirituelle, le dhikr et la proximité avec Allah à travers des pratiques spirituelles guidées."
       }
     }
+  },
+  "chat": {
+    "askQuestion": "Poser une question",
+    "assistant": "Assistant AHLOUL BAIT",
+    "online": "En ligne",
+    "placeholder": "Posez votre question...",
+    "welcome": "Assalamu alaikum ! Je suis l'assistant virtuel d'AHLOUL BAIT. Comment puis-je vous aider à mieux connaître notre organisation ?",
+    "errorMessage": "Désolé, une erreur est survenue. Veuillez réessayer dans quelques instants.",
+    "errorTitle": "Erreur",
+    "errorDescription": "Impossible d'obtenir une réponse. Veuillez réessayer."
   }
 }

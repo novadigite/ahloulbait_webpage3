@@ -201,5 +201,15 @@
         "a": "The Tidjaniya is a Sufi brotherhood founded by Cheikh Ahmad Tijani. It emphasizes spiritual purification, dhikr and closeness to Allah through guided spiritual practices."
       }
     }
+  },
+  "chat": {
+    "askQuestion": "Ask a question",
+    "assistant": "AHLOUL BAIT Assistant",
+    "online": "Online",
+    "placeholder": "Ask your question...",
+    "welcome": "Assalamu alaikum! I am the AHLOUL BAIT virtual assistant. How can I help you learn more about our organization?",
+    "errorMessage": "Sorry, an error occurred. Please try again in a few moments.",
+    "errorTitle": "Error",
+    "errorDescription": "Unable to get a response. Please try again."
   }
 }
