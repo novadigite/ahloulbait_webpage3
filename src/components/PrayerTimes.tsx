@@ -1,17 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePrayerTimes } from "@/hooks/usePrayerTimes";
 
 const PrayerTimes = () => {
   const { t } = useTranslation();
-  
-  const prayers = [
-    { name: t('prayerTimes.fajr'), time: "05:30" },
-    { name: t('prayerTimes.dhuhr'), time: "13:30" },
-    { name: t('prayerTimes.asr'), time: "16:00" },
-    { name: t('prayerTimes.maghrib'), time: "18:30" },
-    { name: t('prayerTimes.isha'), time: "19:30" },
-  ];
+  const { prayers, location, isLoading } = usePrayerTimes(t);
 
   return (
     <Card className="border-0 bg-white/90 backdrop-blur-sm shadow-xl">
@@ -24,7 +18,7 @@ const PrayerTimes = () => {
             <h3 className="text-2xl font-bold text-sage">{t('prayerTimes.title')}</h3>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4" />
-              <span>{t('prayerTimes.location')}</span>
+              <span>{isLoading ? t('prayerTimes.loading') : location}</span>
             </div>
           </div>
         </div>

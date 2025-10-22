@@ -54,12 +54,13 @@
   "prayerTimes": {
     "title": "Prayer Times",
     "location": "Abidjan, Abobo - Ivory Coast",
+    "loading": "Loading your location...",
     "fajr": "Fajr (Dawn)",
     "dhuhr": "Dhuhr (Noon)",
     "asr": "Asr (Afternoon)",
     "maghrib": "Maghrib (Sunset)",
     "isha": "Isha (Night)",
-    "note": "* Approximate times. Hours may vary slightly depending on the time of year."
+    "note": "* Times are automatically calculated based on your location."
   },
   "footer": {
     "organization": "A non-political religious and social organization, dedicated to spirituality, solidarity and community peace.",

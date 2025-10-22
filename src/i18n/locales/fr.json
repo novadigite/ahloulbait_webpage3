@@ -54,12 +54,13 @@
   "prayerTimes": {
     "title": "Horaires des Prières",
     "location": "Abidjan, Abobo - Côte d'Ivoire",
+    "loading": "Chargement de votre localisation...",
     "fajr": "Fajr (Aube)",
     "dhuhr": "Dhuhr (Midi)",
     "asr": "Asr (Après-midi)",
     "maghrib": "Maghrib (Coucher)",
     "isha": "Isha (Nuit)",
-    "note": "* Horaires approximatifs. Les heures peuvent varier légèrement selon la période de l'année."
+    "note": "* Les horaires sont calculés automatiquement selon votre localisation."
   },
   "footer": {
     "organization": "Organisation religieuse et sociale à caractère apolitique, dédiée à la spiritualité, la solidarité et la paix communautaire.",
