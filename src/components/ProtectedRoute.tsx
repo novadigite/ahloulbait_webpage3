@@ -23,9 +23,18 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         return;
       }
 
-      const { data: isAdmin, error } = await supabase.rpc('is_admin');
+      // Use RLS instead of RPC call - try to query user_roles table
+      // If query succeeds, user has admin access (leverages RLS policies)
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', session.user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
       
-      if (error || !isAdmin) {
+      const isAdmin = !error && data !== null;
+      
+      if (!isAdmin) {
         navigate('/', { replace: true });
         return;
       }

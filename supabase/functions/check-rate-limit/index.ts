@@ -1,9 +1,18 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.58.0';
+import { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Validation schema for rate limit requests
+const rateLimitSchema = z.object({
+  identifier: z.string().email('Invalid email format').max(255, 'Identifier too long'),
+  attemptType: z.enum(['login', 'signup', 'contact'], {
+    errorMap: () => ({ message: 'Attempt type must be login, signup, or contact' })
+  })
+});
 
 interface RateLimitRequest {
   identifier: string;
@@ -33,14 +42,26 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const { identifier, attemptType }: RateLimitRequest = await req.json();
+    const body = await req.json();
     
-    if (!identifier || !attemptType) {
+    // Validate input with Zod
+    const validationResult = rateLimitSchema.safeParse(body);
+    
+    if (!validationResult.success) {
+      console.error('Validation error:', validationResult.error);
       return new Response(
-        JSON.stringify({ error: 'Missing identifier or attemptType' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ 
+          error: 'Invalid input', 
+          details: validationResult.error.errors.map(e => e.message).join(', ')
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
       );
     }
+
+    const { identifier, attemptType } = validationResult.data;
 
     const config = RATE_LIMIT_CONFIGS[attemptType];
     if (!config) {

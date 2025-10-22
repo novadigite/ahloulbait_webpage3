@@ -133,15 +133,18 @@ const Admin = () => {
         return;
       }
 
-      const { data, error } = await supabase.functions.invoke('check-admin', {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`
-        }
-      });
+      // Use RLS instead of edge function - try to query user_roles table
+      // If query succeeds, user has admin access (leverages RLS policies)
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', session.user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
 
-      if (error) throw error;
+      const isAdmin = !error && data !== null;
 
-      if (data?.isAdmin === true) {
+      if (isAdmin) {
         setIsAdmin(true);
         loadAllContent();
       } else {
