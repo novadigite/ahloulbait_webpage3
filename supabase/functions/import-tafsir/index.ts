@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,6 +14,16 @@ interface TafsirData {
   content: string;
   video_url: string | null;
 }
+
+// Validation schema for tafsir data
+const tafsirDataSchema = z.object({
+  title: z.string().min(1).max(500),
+  surah_name: z.string().min(1).max(200),
+  surah_number: z.number().int().min(0).max(114),
+  description: z.string().min(1).max(1000),
+  content: z.string().min(1).max(50000),
+  video_url: z.string().url().nullable().optional()
+});
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -259,6 +270,19 @@ Deno.serve(async (req) => {
         video_url: null
       }
     ];
+
+    // Validate all tafsir data before processing
+    const validationErrors: string[] = [];
+    tafsirList.forEach((tafsir, index) => {
+      const result = tafsirDataSchema.safeParse(tafsir);
+      if (!result.success) {
+        validationErrors.push(`Tafsir ${index}: ${result.error.message}`);
+      }
+    });
+
+    if (validationErrors.length > 0) {
+      throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
+    }
 
     // Supprimer les anciens tafsirs pour éviter les doublons
     const { error: deleteError } = await supabaseClient
