@@ -1,4 +1,4 @@
-import { Heart, MapPin, Phone, Mail, Globe } from 'lucide-react';
+import { Heart, MapPin, Phone, Mail, Globe, Facebook, Youtube, Music2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -114,6 +114,40 @@ const Footer = () => {
                 <span className="text-sm text-sage-light">
                   www.ahloulbait1199-tidjanya.org
                 </span>
+              </div>
+
+              {/* Social Media Links */}
+              <div className="mt-6 pt-6 border-t border-sage-light/20">
+                <h5 className="text-sm font-semibold mb-3 text-gold">{t('footer.followUs')}</h5>
+                <div className="flex space-x-4">
+                  <a
+                    href="https://www.facebook.com/CheikhAhmadTidjaneDiabate1199/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-sage-light/20 hover:bg-gold transition-colors duration-200 rounded-full flex items-center justify-center group"
+                    aria-label="Facebook"
+                  >
+                    <Facebook className="w-5 h-5 text-sage-light group-hover:text-white" />
+                  </a>
+                  <a
+                    href="https://m.youtube.com/@cheikhahmadtidjanydiabatea219"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-sage-light/20 hover:bg-gold transition-colors duration-200 rounded-full flex items-center justify-center group"
+                    aria-label="YouTube"
+                  >
+                    <Youtube className="w-5 h-5 text-sage-light group-hover:text-white" />
+                  </a>
+                  <a
+                    href="https://www.tiktok.com/@cheikhahmadtidjane1?_t=ZM-90lDhscCn7M&_r=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-sage-light/20 hover:bg-gold transition-colors duration-200 rounded-full flex items-center justify-center group"
+                    aria-label="TikTok"
+                  >
+                    <Music2 className="w-5 h-5 text-sage-light group-hover:text-white" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
