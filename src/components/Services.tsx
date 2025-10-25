@@ -62,13 +62,13 @@ const Services = () => {
   return (
     <section id="services" className="py-20 bg-gradient-to-br from-sage-light/10 to-gold-light/10">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <header className="text-center mb-16">
           <h2 className="text-4xl font-bold text-sage mb-4">{t('services.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             {t('services.subtitle')}
           </p>
-        </div>
+        </header>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">

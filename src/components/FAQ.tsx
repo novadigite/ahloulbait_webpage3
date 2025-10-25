@@ -45,15 +45,15 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-20 bg-white">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <header className="text-center mb-16">
           <h2 className="text-4xl font-bold text-sage mb-4">{t('faq.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             {t('faq.subtitle')}
           </p>
-        </div>
+        </header>
 
-        <div className="max-w-4xl mx-auto">
+        <article className="max-w-4xl mx-auto">
           <Card className="border-0 bg-gradient-to-br from-white to-sage-light/10 shadow-lg">
             <CardContent className="p-8">
               <Accordion type="single" collapsible className="space-y-4">
@@ -100,7 +100,7 @@ const FAQ = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   );

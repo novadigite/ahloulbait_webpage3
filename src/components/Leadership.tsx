@@ -19,13 +19,13 @@ const Leadership = () => {
   return (
     <section id="leadership" className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <header className="text-center mb-16">
           <h2 className="text-4xl font-bold text-sage mb-4">{t('leadership.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             {t('leadership.subtitle')}
           </p>
-        </div>
+        </header>
 
         {/* Main Leader Section */}
         <div className="max-w-6xl mx-auto mb-16">
@@ -37,7 +37,7 @@ const Leadership = () => {
                   <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
                     <img 
                       src={cheikhPhoto} 
-                      alt="Cheikh Ahmad Tidjani Diabaté" 
+                      alt="Cheikh Ahmad Tidjani Diabaté - Guide spirituel Tidjaniya Côte d'Ivoire, fondateur AHLOUL BAIT INTERNATIONAL Abidjan" 
                       className="w-full h-full object-cover"
                       loading="lazy"
                       decoding="async"

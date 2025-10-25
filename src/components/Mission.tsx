@@ -35,15 +35,15 @@ const Mission = () => {
   return (
     <section id="mission" className="py-20 bg-white">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16 animate-fade-in">
+        <header className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl font-bold text-sage mb-4">{t('mission.title')}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-6"></div>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             {t('mission.description')}
           </p>
-        </div>
+        </header>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <article className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {missions.map((mission, index) => (
             <Card 
               key={mission.title} 
@@ -60,7 +60,7 @@ const Mission = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </article>
 
         {/* Vision Statement */}
         <div className="mt-20 text-center">

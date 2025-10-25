@@ -20,7 +20,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-dark/80 via-sage/70 to-emerald/60 z-10"></div>
         <img 
           src={cheikhBanner} 
-          alt="AHLOUL BAIT Community" 
+          alt="Communauté AHLOUL BAIT Tidjaniya en Côte d'Ivoire - Cheikh Ahmad Tidjani Diabaté guide spirituel à Abidjan" 
           className="w-full h-full object-cover opacity-30"
           fetchPriority="high"
           loading="eager"

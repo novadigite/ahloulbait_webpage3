@@ -9,6 +9,7 @@ import Contact from '@/components/Contact';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
+import StructuredData from '@/components/StructuredData';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const Index = () => {
@@ -39,8 +40,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen overflow-hidden">
+      <StructuredData />
       <Navigation />
-      <Hero />
+      <main>
+        <Hero />
       
       <div 
         ref={missionAnimation.ref}
@@ -90,8 +93,9 @@ const Index = () => {
         <FAQ />
       </div>
 
-      <Footer />
-      <FloatingButtons />
+        <Footer />
+        <FloatingButtons />
+      </main>
     </div>
   );
 };
