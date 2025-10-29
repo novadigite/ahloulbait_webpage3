@@ -13,11 +13,13 @@ import { checkRateLimit } from '@/lib/rateLimit';
 const Contact = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
+  // IMPORTANT: Remplacez 'YOUR_FORM_ID' par votre ID Formspree
+  // Créez un compte gratuit sur https://formspree.io et obtenez votre endpoint
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    subject: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,57 +31,42 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      // Validate with Zod schema
-      const result = contactSchema.safeParse(formData);
-
-      if (!result.success) {
-        const firstError = result.error.errors[0];
+      // Validation simple
+      if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
         toast({
-          title: t('contact.form.error'),
-          description: firstError.message,
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      // Check rate limit (3 messages per hour)
-      const rateLimitResult = await checkRateLimit(result.data.email, 'contact');
-      
-      if (!rateLimitResult.allowed) {
-        toast({
-          title: "Trop de messages envoyés",
-          description: rateLimitResult.message || `Veuillez patienter ${rateLimitResult.remainingMinutes} minute(s) avant d'envoyer un nouveau message.`,
+          title: "Erreur",
+          description: "Veuillez remplir tous les champs requis.",
           variant: "destructive",
         });
         return;
       }
 
-      if (rateLimitResult.attemptsRemaining && rateLimitResult.attemptsRemaining === 1) {
+      // Envoi à Formspree
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
         toast({
-          title: "Attention",
-          description: "Dernier message autorisé pour cette heure.",
-          variant: "default",
+          title: "Message envoyé !",
+          description: "Nous avons bien reçu votre message et vous répondrons dans les plus brefs délais.",
         });
+        
+        // Reset form
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Erreur lors de l\'envoi');
       }
-      
-      // Use validated data
-      const { name, email, phone, subject, message } = result.data;
-
-      const emailBody = `Nom: ${name}
-Email: ${email}
-Téléphone: ${phone || 'Non renseigné'}
-
-Message:
-${message}`;
-      
-      // Create mailto URL with proper encoding
-      const mailtoUrl = `mailto:ahloulbait1199tidjanya@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Open email client
-      window.location.href = mailtoUrl;
-      
-      // Reset form
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -194,78 +181,47 @@ ${message}`;
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-sage mb-2 block">
-                        {t('contact.form.name')} *
-                      </label>
-                      <Input
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder={t('contact.form.name')}
-                        required
-                        maxLength={100}
-                        className="border-sage/20 focus:border-sage"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-sage mb-2 block">
-                        {t('contact.form.email')} *
-                      </label>
-                      <Input
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder={t('contact.form.email')}
-                        required
-                        maxLength={255}
-                        className="border-sage/20 focus:border-sage"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-sage mb-2 block">
-                        {t('contact.form.phone')}
-                      </label>
-                      <Input
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+225 XX XX XX XX XX"
-                        maxLength={20}
-                        className="border-sage/20 focus:border-sage"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-sage mb-2 block">
-                        {t('contact.form.subject')} *
-                      </label>
-                      <Input
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        placeholder={t('contact.form.subject')}
-                        required
-                        maxLength={200}
-                        className="border-sage/20 focus:border-sage"
-                      />
-                    </div>
+                  <div>
+                    <label className="text-sm font-medium text-sage mb-2 block">
+                      Nom *
+                    </label>
+                    <Input
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Votre nom complet"
+                      required
+                      maxLength={100}
+                      className="border-sage/20 focus:border-sage"
+                    />
                   </div>
 
                   <div>
                     <label className="text-sm font-medium text-sage mb-2 block">
-                      {t('contact.form.message')} *
+                      Email *
+                    </label>
+                    <Input
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="votre@email.com"
+                      required
+                      maxLength={255}
+                      className="border-sage/20 focus:border-sage"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-sage mb-2 block">
+                      Message *
                     </label>
                     <Textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder={t('contact.form.message')}
-                      rows={5}
+                      placeholder="Votre message..."
+                      rows={6}
                       required
                       minLength={10}
                       maxLength={2000}
@@ -277,10 +233,10 @@ ${message}`;
                     type="submit"
                     size="lg"
                     disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-sage to-gold text-white flex items-center gap-2"
+                    className="w-full bg-gradient-to-r from-sage to-gold text-white flex items-center gap-2 hover:opacity-90 transition-opacity"
                   >
                     <Mail className="w-5 h-5" />
-                    {isSubmitting ? 'Envoi en cours...' : t('contact.form.send')}
+                    {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
                   </Button>
                 </form>
               </CardContent>
