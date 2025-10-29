@@ -5,8 +5,8 @@ export interface Tafsir {
   id: string;
   title: string;
   description: string | null;
-  surah_name: string;
-  surah_number: number;
+  surah_name: string | null;
+  surah_number: number | null;
   content: string | null;
   video_url: string | null;
   created_at: string;

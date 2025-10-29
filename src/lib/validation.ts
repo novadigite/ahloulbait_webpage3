@@ -86,12 +86,14 @@ export const tafsirSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Le nom de la sourate est requis" })
-    .max(100, { message: "Le nom de la sourate ne peut pas dépasser 100 caractères" }),
+    .max(100, { message: "Le nom de la sourate ne peut pas dépasser 100 caractères" })
+    .optional(),
   surah_number: z
     .number()
     .int({ message: "Le numéro doit être un entier" })
     .min(1, { message: "Le numéro de sourate doit être entre 1 et 114" })
-    .max(114, { message: "Le numéro de sourate doit être entre 1 et 114" }),
+    .max(114, { message: "Le numéro de sourate doit être entre 1 et 114" })
+    .optional(),
   content: z
     .string()
     .trim()

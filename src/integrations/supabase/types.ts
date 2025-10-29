@@ -266,8 +266,8 @@ export type Database = {
           created_by: string | null
           description: string | null
           id: string
-          surah_name: string
-          surah_number: number
+          surah_name: string | null
+          surah_number: number | null
           title: string
           video_url: string | null
         }
@@ -277,8 +277,8 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           id?: string
-          surah_name: string
-          surah_number: number
+          surah_name?: string | null
+          surah_number?: number | null
           title: string
           video_url?: string | null
         }
@@ -288,8 +288,8 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           id?: string
-          surah_name?: string
-          surah_number?: number
+          surah_name?: string | null
+          surah_number?: number | null
           title?: string
           video_url?: string | null
         }

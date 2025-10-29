@@ -40,13 +40,15 @@ const TafsirSection = () => {
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <CardHeader>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-emerald">
-                  Sourate {tafsir.surah_number}: {tafsir.surah_name}
-                </span>
-              </div>
+              {tafsir.surah_name && tafsir.surah_number && (
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-emerald">
+                    Sourate {tafsir.surah_number}: {tafsir.surah_name}
+                  </span>
+                </div>
+              )}
               <CardTitle className="text-sage">{tafsir.title}</CardTitle>
-              <CardDescription>{tafsir.description}</CardDescription>
+              {tafsir.description && <CardDescription>{tafsir.description}</CardDescription>}
             </CardHeader>
             <CardContent className="space-y-4">
               {tafsir.content && (
