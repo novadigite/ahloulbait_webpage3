@@ -9,6 +9,7 @@ export interface Fatwa {
   scholar_name: string | null;
   category: string | null;
   created_at: string;
+  audios?: Array<{ id: string; audio_url: string }>;
 }
 
 export const useFatwas = () => {
@@ -17,7 +18,10 @@ export const useFatwas = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('fatwas')
-        .select('*')
+        .select(`
+          *,
+          audios:fatwa_audios(id, audio_url)
+        `)
         .order('created_at', { ascending: false });
       
       if (error) throw error;

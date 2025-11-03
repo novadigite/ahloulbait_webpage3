@@ -46,15 +46,33 @@ const FatwasSection = () => {
               </div>
             )}
             <div>
-              <p className="text-sm font-medium mb-2">Réponse audio:</p>
-              <audio
-                controls
-                controlsList="nodownload"
-                className="w-full"
-                src={fatwa.audio_url}
-              >
-                Votre navigateur ne supporte pas la lecture audio.
-              </audio>
+              <p className="text-sm font-medium mb-2">Réponses audio:</p>
+              {fatwa.audios && fatwa.audios.length > 0 ? (
+                <div className="space-y-2">
+                  {fatwa.audios.map((audio, idx) => (
+                    <div key={audio.id}>
+                      <p className="text-xs text-muted-foreground mb-1">Audio {idx + 1}</p>
+                      <audio
+                        controls
+                        controlsList="nodownload"
+                        className="w-full"
+                        src={audio.audio_url}
+                      >
+                        Votre navigateur ne supporte pas la lecture audio.
+                      </audio>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <audio
+                  controls
+                  controlsList="nodownload"
+                  className="w-full"
+                  src={fatwa.audio_url}
+                >
+                  Votre navigateur ne supporte pas la lecture audio.
+                </audio>
+              )}
             </div>
           </CardContent>
         </Card>

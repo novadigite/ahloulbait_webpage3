@@ -92,7 +92,7 @@ const Admin = () => {
   // Fatwa
   const [fatwas, setFatwas] = useState<Fatwa[]>([]);
   const [question, setQuestion] = useState('');
-  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioFiles, setAudioFiles] = useState<FileList | null>(null);
   const [category, setCategory] = useState('');
   const [scholarName, setScholarName] = useState('');
   const [questionerName, setQuestionerName] = useState('');
@@ -575,39 +575,45 @@ const Admin = () => {
       return;
     }
 
-    // Validate audio file if present (required for fatwa)
-    if (!audioFile) {
+    // Validate audio files if present (required for fatwa)
+    if (!audioFiles || audioFiles.length === 0) {
       toast({
         title: "Erreur de validation",
-        description: "Le fichier audio est requis",
+        description: "Au moins un fichier audio est requis",
         variant: "destructive",
       });
       return;
     }
 
-    const fileValidation = validateFile(audioFile, audioFileSchema);
-    if (!fileValidation.success) {
-      const firstError = fileValidation.error.errors[0];
-      toast({
-        title: "Erreur de validation du fichier",
-        description: `${audioFile.name}: ${firstError.message}`,
-        variant: "destructive",
-      });
-      return;
+    // Validate all audio files
+    for (let i = 0; i < audioFiles.length; i++) {
+      const file = audioFiles[i];
+      const fileValidation = validateFile(file, audioFileSchema);
+      if (!fileValidation.success) {
+        const firstError = fileValidation.error.errors[0];
+        toast({
+          title: "Erreur de validation du fichier",
+          description: `${file.name}: ${firstError.message}`,
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     setSubmitting(true);
 
     try {
-      let audioUrl = '';
-
-      if (audioFile) {
-        const fileExt = getSafeFileExtension(audioFile);
+      // First, create the fatwa entry with the first audio URL
+      let firstAudioUrl = '';
+      
+      if (audioFiles.length > 0) {
+        const firstFile = audioFiles[0];
+        const fileExt = getSafeFileExtension(firstFile);
         const fileName = `fatwas/${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
           .from('event-media')
-          .upload(fileName, audioFile);
+          .upload(fileName, firstFile);
 
         if (uploadError) throw uploadError;
 
@@ -615,29 +621,58 @@ const Admin = () => {
           .from('event-media')
           .getPublicUrl(fileName);
 
-        audioUrl = publicUrl;
+        firstAudioUrl = publicUrl;
       }
 
-      const { error } = await supabase
+      const { data: fatwaData, error: fatwaError } = await supabase
         .from('fatwas')
         .insert({
           question: result.data.question,
-          audio_url: audioUrl,
+          audio_url: firstAudioUrl,
           category: result.data.category,
           scholar_name: result.data.scholar_name,
           questioner_name: result.data.questioner_name,
           created_by: session.user.id,
-        });
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (fatwaError) throw fatwaError;
+
+      // Upload and link all audio files to the fatwa
+      for (let i = 0; i < audioFiles.length; i++) {
+        const file = audioFiles[i];
+        const fileExt = getSafeFileExtension(file);
+        const fileName = `fatwas/${Date.now()}_${i}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('event-media')
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('event-media')
+          .getPublicUrl(fileName);
+
+        // Insert audio URL into fatwa_audios table
+        const { error: audioError } = await supabase
+          .from('fatwa_audios')
+          .insert({
+            fatwa_id: fatwaData.id,
+            audio_url: publicUrl,
+          });
+
+        if (audioError) throw audioError;
+      }
 
       toast({
         title: "Fatwa créée",
-        description: "La fatwa a été publiée avec succès.",
+        description: "La fatwa et les fichiers audio ont été publiés avec succès.",
       });
 
       setQuestion('');
-      setAudioFile(null);
+      setAudioFiles(null);
       setCategory('');
       setScholarName('');
       setQuestionerName('');
@@ -1049,13 +1084,14 @@ const Admin = () => {
             </div>
             <div>
               <label htmlFor="audioFile" className="block text-sm font-medium mb-2">
-                Fichier audio de la réponse
+                Fichiers audio de la réponse (plusieurs fichiers possibles)
               </label>
               <Input
                 id="audioFile"
                 type="file"
                 accept="audio/*"
-                onChange={(e) => setAudioFile(e.target.files?.[0] || null)}
+                multiple
+                onChange={(e) => setAudioFiles(e.target.files)}
                 required
               />
             </div>

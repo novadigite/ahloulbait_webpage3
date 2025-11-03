@@ -156,6 +156,35 @@ export type Database = {
           },
         ]
       }
+      fatwa_audios: {
+        Row: {
+          audio_url: string
+          created_at: string
+          fatwa_id: string
+          id: string
+        }
+        Insert: {
+          audio_url: string
+          created_at?: string
+          fatwa_id: string
+          id?: string
+        }
+        Update: {
+          audio_url?: string
+          created_at?: string
+          fatwa_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fatwa_audios_fatwa_id_fkey"
+            columns: ["fatwa_id"]
+            isOneToOne: false
+            referencedRelation: "fatwas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       fatwas: {
         Row: {
           audio_url: string
