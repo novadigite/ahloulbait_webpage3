@@ -151,7 +151,20 @@
       "experience": "Années d'expérience"
     },
     "vision": "Vision & Mission",
-    "biography": "Biographie"
+    "biography": "Biographie",
+    "presidents": {
+      "title": "Direction Exécutive",
+      "president": {
+        "title": "Président",
+        "name": "Nom du Président",
+        "description": "Le Président assure la direction administrative et opérationnelle d'AHLOUL BAIT. Il coordonne les activités quotidiennes, supervise les projets communautaires et veille à la mise en œuvre de la vision spirituelle de notre guide."
+      },
+      "presidente": {
+        "title": "Présidente",
+        "name": "Nom de la Présidente",
+        "description": "La Présidente pilote les programmes sociaux et éducatifs. Elle encadre les initiatives d'entraide, coordonne les actions auprès des familles et dirige les programmes de formation et d'alphabétisation de l'organisation."
+      }
+    }
   },
   "events": {
     "title": "Événements & Enseignements",

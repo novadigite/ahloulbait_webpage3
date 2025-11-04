@@ -151,7 +151,20 @@
       "experience": "Years of experience"
     },
     "vision": "Vision & Mission",
-    "biography": "Biography"
+    "biography": "Biography",
+    "presidents": {
+      "title": "Executive Leadership",
+      "president": {
+        "title": "President",
+        "name": "President's Name",
+        "description": "The President ensures the administrative and operational direction of AHLOUL BAIT. He coordinates daily activities, supervises community projects and ensures the implementation of our guide's spiritual vision."
+      },
+      "presidente": {
+        "title": "Vice President",
+        "name": "Vice President's Name",
+        "description": "The Vice President leads social and educational programs. She oversees mutual aid initiatives, coordinates actions with families and directs the organization's training and literacy programs."
+      }
+    }
   },
   "events": {
     "title": "Events & Teachings",

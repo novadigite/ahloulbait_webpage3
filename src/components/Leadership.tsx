@@ -2,6 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Award, Calendar, MapPin } from "lucide-react";
 import cheikhPhoto from "@/assets/cheikh-photo.jpg";
+import presidentPhoto from "@/assets/president-photo.jpg";
+import presidentePhoto from "@/assets/presidente-photo.jpg";
 import { useTranslation } from 'react-i18next';
 
 const Leadership = () => {
@@ -76,6 +78,70 @@ const Leadership = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Presidents Section */}
+        <div className="max-w-6xl mx-auto mb-16">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-sage mb-2">{t('leadership.presidents.title')}</h3>
+            <div className="w-16 h-1 bg-gradient-to-r from-sage to-gold mx-auto"></div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* President */}
+            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-sage-light/10 shadow-lg">
+              <CardContent className="p-0">
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <img 
+                    src={presidentPhoto} 
+                    alt={`${t('leadership.presidents.president.name')} - ${t('leadership.presidents.president.title')} AHLOUL BAIT`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-sage/20 to-transparent"></div>
+                </div>
+                <div className="p-6">
+                  <Badge className="bg-sage/10 text-sage border-sage/20 mb-3">
+                    {t('leadership.presidents.president.title')}
+                  </Badge>
+                  <h4 className="text-xl font-bold text-sage mb-3">
+                    {t('leadership.presidents.president.name')}
+                  </h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {t('leadership.presidents.president.description')}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Presidente */}
+            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-sage-light/10 shadow-lg">
+              <CardContent className="p-0">
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <img 
+                    src={presidentePhoto} 
+                    alt={`${t('leadership.presidents.presidente.name')} - ${t('leadership.presidents.presidente.title')} AHLOUL BAIT`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-sage/20 to-transparent"></div>
+                </div>
+                <div className="p-6">
+                  <Badge className="bg-sage/10 text-sage border-sage/20 mb-3">
+                    {t('leadership.presidents.presidente.title')}
+                  </Badge>
+                  <h4 className="text-xl font-bold text-sage mb-3">
+                    {t('leadership.presidents.presidente.name')}
+                  </h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {t('leadership.presidents.presidente.description')}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Qualities Grid */}
