@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Users, Calendar, Heart, Sparkles } from 'lucide-react';
-import cheikhBanner from '@/assets/cheikh-banner.jpg';
 import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
@@ -15,16 +14,9 @@ const Hero = () => {
 
   return (
     <section id="accueil" className="min-h-screen pt-20 relative overflow-hidden">
-      {/* Background with vitrine image */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-dark/80 via-sage/70 to-emerald/60 z-10"></div>
-        <img 
-          src={cheikhBanner} 
-          alt="Communauté AHLOUL BAIT Tidjaniya en Côte d'Ivoire - Cheikh Ahmad Tidjani Diabaté guide spirituel à Abidjan" 
-          className="w-full h-full object-cover opacity-30"
-          fetchPriority="high"
-          loading="eager"
-        />
         {/* Floating particles */}
         <div className="absolute inset-0 z-20">
           <div className="absolute top-20 left-10 w-2 h-2 bg-gold rounded-full animate-float opacity-60"></div>
