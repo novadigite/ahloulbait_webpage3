@@ -47,48 +47,48 @@ const Index = () => {
       
       <div 
         ref={missionAnimation.ref}
-        className={`scroll-reveal scroll-reveal-up ${missionAnimation.isVisible ? 'is-visible' : ''}`}
-        style={{ transitionDelay: '100ms' }}
+        className={`scroll-reveal scroll-reveal-up ${missionAnimation.isVisible ? 'is-visible' : ''} transition-all duration-700`}
+        style={{ transitionDelay: '150ms' }}
       >
         <Mission />
       </div>
 
       <div 
         ref={servicesAnimation.ref}
-        className={`scroll-reveal scroll-reveal-scale ${servicesAnimation.isVisible ? 'is-visible' : ''}`}
-        style={{ transitionDelay: '150ms' }}
+        className={`scroll-reveal scroll-reveal-scale ${servicesAnimation.isVisible ? 'is-visible' : ''} transition-all duration-700`}
+        style={{ transitionDelay: '200ms' }}
       >
         <Services />
       </div>
 
       <div 
         ref={leadershipAnimation.ref}
-        className={`scroll-reveal scroll-reveal-left ${leadershipAnimation.isVisible ? 'is-visible' : ''}`}
-        style={{ transitionDelay: '200ms' }}
+        className={`scroll-reveal scroll-reveal-left ${leadershipAnimation.isVisible ? 'is-visible' : ''} transition-all duration-700`}
+        style={{ transitionDelay: '250ms' }}
       >
         <Leadership />
       </div>
 
       <div 
         ref={eventsAnimation.ref}
-        className={`scroll-reveal scroll-reveal-right ${eventsAnimation.isVisible ? 'is-visible' : ''}`}
-        style={{ transitionDelay: '250ms' }}
+        className={`scroll-reveal scroll-reveal-right ${eventsAnimation.isVisible ? 'is-visible' : ''} transition-all duration-700`}
+        style={{ transitionDelay: '300ms' }}
       >
         <Events />
       </div>
 
       <div 
         ref={contactAnimation.ref}
-        className={`scroll-reveal scroll-reveal-up ${contactAnimation.isVisible ? 'is-visible' : ''}`}
-        style={{ transitionDelay: '300ms' }}
+        className={`scroll-reveal scroll-reveal-up ${contactAnimation.isVisible ? 'is-visible' : ''} transition-all duration-700`}
+        style={{ transitionDelay: '350ms' }}
       >
         <Contact />
       </div>
 
       <div 
         ref={faqAnimation.ref}
-        className={`scroll-reveal scroll-reveal-scale ${faqAnimation.isVisible ? 'is-visible' : ''}`}
-        style={{ transitionDelay: '350ms' }}
+        className={`scroll-reveal scroll-reveal-scale ${faqAnimation.isVisible ? 'is-visible' : ''} transition-all duration-700`}
+        style={{ transitionDelay: '400ms' }}
       >
         <FAQ />
       </div>
