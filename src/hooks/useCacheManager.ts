@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useToast } from '@/hooks/use-toast';
 
 const CACHE_VERSION = '1.0.0';
 const CACHE_VERSION_KEY = 'app_cache_version';
@@ -7,8 +6,6 @@ const LAST_CACHE_CLEAR_KEY = 'last_cache_clear';
 const CACHE_CLEAR_INTERVAL = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export const useCacheManager = () => {
-  const { toast } = useToast();
-
   const clearAppCache = async () => {
     try {
       // Clear localStorage except auth data
@@ -57,10 +54,6 @@ export const useCacheManager = () => {
     
     if (storedVersion !== CACHE_VERSION) {
       await clearAppCache();
-      toast({
-        title: "Mise à jour effectuée",
-        description: "L'application a été mise à jour avec les dernières fonctionnalités.",
-      });
     }
   };
 
@@ -76,10 +69,6 @@ export const useCacheManager = () => {
     
     if (timeSinceLastClear >= CACHE_CLEAR_INTERVAL) {
       await clearAppCache();
-      toast({
-        title: "Cache nettoyé",
-        description: "Le cache a été nettoyé pour optimiser les performances.",
-      });
     }
   };
 
