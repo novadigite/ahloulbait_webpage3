@@ -20,7 +20,7 @@ interface EventMedia {
 
 const Events = () => {
   const { t } = useTranslation();
-  const { data: events = [], isLoading: loading } = useEvents();
+  const { data: events = [], isLoading: loading, isError, refetch } = useEvents();
   const [eventMedia, setEventMedia] = useState<Record<string, EventMedia[]>>({});
 
   useEffect(() => {
@@ -81,6 +81,30 @@ const Events = () => {
       }
     }
   };
+
+  // Show error state with retry option
+  if (isError) {
+    return (
+      <section id="evenements" className="py-20 bg-gradient-card">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-sage via-gold to-emerald bg-clip-text text-transparent">
+              {t('events.title')}
+            </h2>
+          </div>
+          <div className="text-center">
+            <p className="text-muted-foreground mb-4">{t('events.loadError', 'Impossible de charger les événements')}</p>
+            <button 
+              onClick={() => refetch()}
+              className="px-6 py-2 bg-sage text-white rounded-lg hover:bg-sage/80 transition-colors"
+            >
+              {t('events.retry', 'Réessayer')}
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (loading) {
     return (
