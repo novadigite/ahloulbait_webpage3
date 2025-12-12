@@ -13,6 +13,34 @@ interface AuditLogRequest {
   newData?: any;
 }
 
+// Hash IP address for privacy - one-way hash that preserves uniqueness for analysis
+// but cannot be reversed to get the original IP
+async function hashIpAddress(ip: string): Promise<string> {
+  if (!ip || ip === 'unknown') return 'unknown';
+  
+  // Add salt for additional security
+  const salt = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')?.substring(0, 16) || 'audit_salt_2024';
+  const data = new TextEncoder().encode(ip + salt);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  // Return first 16 chars of hash for readability while maintaining uniqueness
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+}
+
+// Anonymize user agent to remove potentially identifying details
+function anonymizeUserAgent(userAgent: string): string {
+  if (!userAgent || userAgent === 'unknown') return 'unknown';
+  
+  // Keep only browser family and OS - remove version details that could fingerprint
+  const browserMatch = userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera)/i);
+  const osMatch = userAgent.match(/(Windows|Mac|Linux|Android|iOS)/i);
+  
+  const browser = browserMatch ? browserMatch[1] : 'Unknown Browser';
+  const os = osMatch ? osMatch[1] : 'Unknown OS';
+  
+  return `${browser} on ${os}`;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -58,11 +86,15 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Extract client info
-    const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-                      req.headers.get('x-real-ip') || 
-                      'unknown';
-    const userAgent = req.headers.get('user-agent') || 'unknown';
+    // Extract and anonymize client info
+    const rawIpAddress = req.headers.get('x-forwarded-for')?.split(',')[0] || 
+                         req.headers.get('x-real-ip') || 
+                         'unknown';
+    const rawUserAgent = req.headers.get('user-agent') || 'unknown';
+    
+    // Hash IP and anonymize user agent for privacy
+    const hashedIp = await hashIpAddress(rawIpAddress);
+    const anonymizedUserAgent = anonymizeUserAgent(rawUserAgent);
 
     // Use service role key to insert audit log
     const adminClient = createClient(
@@ -79,10 +111,9 @@ Deno.serve(async (req) => {
         record_id: recordId,
         old_data: oldData,
         new_data: newData,
-        ip_address: ipAddress,
-        user_agent: userAgent
+        ip_address: hashedIp,
+        user_agent: anonymizedUserAgent
       });
-
     if (insertError) {
       console.error('Error inserting audit log:', insertError);
       return new Response(
