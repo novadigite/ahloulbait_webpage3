@@ -183,7 +183,7 @@ const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="text-sm font-medium text-sage mb-2 block">
-                      Nom *
+                      Name *
                     </label>
                     <Input
                       name="name"
